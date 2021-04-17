@@ -1,0 +1,31 @@
+.rack {
+  margin-top: 40px;
+  text-align: left;
+  display: flex;
+  background-color: #6c921b;
+  padding: 20px;
+  -webkit-box-shadow: 5px 10px 25px -8px rgba(138,138,138,1);
+-moz-box-shadow: 5px 10px 25px -8px rgba(138,138,138,1);
+box-shadow: 5px 10px 25px -8px rgba(138,138,138,1);
+border-radius: 10px;
+}
+
+.playerTile {
+  border: 1px solid black;
+  margin-right: 20px;
+  height: 40px;
+  width: 40px;
+  background-color: #F7EFD7;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.playerTile:hover {
+  cursor: pointer;
+  background-color: #ead595;
+}
+
+.selec

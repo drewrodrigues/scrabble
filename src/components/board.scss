@@ -1,0 +1,26 @@
+.board {
+  border: 10px solid #6c921b;
+  display: inline-block;
+  box-shadow: 0 0 10px #777;
+  border-radius: 10px;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  background-color: #557215;
+  border: 1px solid #6c921b;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+
+  &-odd {
+    opacity: 0.95;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
