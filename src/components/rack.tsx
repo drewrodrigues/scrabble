@@ -2,11 +2,17 @@ import "./rack.scss";
 
 const tiles = ["A", "B", "C", "D", "E", "F", "G"];
 
-export function Rack({ player, selectLetter, selectedLetter }) {
-
+export function Rack({ player, selectedTile, onTileSelect }) {
+  return (
     <div className="rack">
       {tiles.map((tile, index) => (
-        <div key={index} className=`playerTile ${selectedLetter === tile ? ""} ` onClick={() => selectLetter(tile)}>
+        <div
+          key={index}
+          className={`playerTile ${
+            selectedTile === tile ? "selectedTile" : ""
+          }`}
+          onClick={() => onTileSelect(tile)}
+        >
           {tile}
         </div>
       ))}
