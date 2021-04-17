@@ -1,8 +1,9 @@
 import "./board.scss";
+import Cell from "./cell";
 
 interface BoardProps {
   cells: string[][];
-  onCellSelect: (row: number, column: number) => void;
+  onCellSelect: (row: number, col: number) => void;
 }
 
 export default function Board({ cells, onCellSelect }: BoardProps) {
@@ -11,19 +12,17 @@ export default function Board({ cells, onCellSelect }: BoardProps) {
     onCellSelect(row, column);
   };
 
+  console.log(JSON.stringify(cells));
+
   return (
     <main className="board">
       {cells.map((row, i) => (
         <section className="row" key={i}>
-          {row.map((letter, j) => (
-            <span
-              className={`cell cell-${(j + j) % 2 === 0 ? "odd" : "even"}`}
-              onClick={() => onCellClick(i, j)}
-              key={j}
-            >
-              {letter}
-            </span>
-          ))}
+          {row.map((letter, j) => {
+            return (
+              <Cell letter={letter} row={i} col={j} onClick={onCellClick} />
+            );
+          })}
         </section>
       ))}
     </main>
