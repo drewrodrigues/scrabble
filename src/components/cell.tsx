@@ -15,14 +15,15 @@ export default function Cell({ row, col, letter, onClick, currentlySelectedCell 
   const isSelected = currentlySelectedCell && currentlySelectedCell[0] === row && currentlySelectedCell[1] === col;
   const bonus = BONUS_CELLS[row][col];
   const bonusText = bonus && bonus.replace('-', ' ');
+  const isCenter = row === 7 && col === 7;
 
   return (
     <span
-      className={classNames("cell", {'cell--is-selected': isSelected, [`cell--${bonus}`]: bonus})}
+      className={classNames("cell", {'cell--is-selected': isSelected, [`cell--${bonus}`]: bonus, 'cell--is-center': isCenter})}
       onClick={() => onClick(row, col)}
       key={col}
     >
-      {letter || bonusText}
+      {letter || bonusText || (isCenter ? "CENTER" : "")}
     </span>
   );
 }
