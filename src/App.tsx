@@ -6,7 +6,7 @@ import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
 
 const PLAYERS = 2;
-var INITIAL_CELLS = Array(15).fill(null).map(() => Array(15).fill(null));
+const INITIAL_CELLS = Array(15).fill(null).map(() => Array(15).fill(null));
 
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
@@ -31,7 +31,7 @@ export default function App() {
   return (
     <div className="App">
       <p>It's player {playerTurn}'s turn</p>
-      <Board cells={cells} onCellSelect={onCellSelect} currentlySelectedCell={currentSelection.boardPos} currentPlayerTile={currentSelection.playerTile} />
+      <Board cells={cells} onCellSelect={onCellSelect} currentlySelectedCell={currentSelection.boardPos} currentlySelectedTile={currentSelection.playerTile} />
 
       <Racks>
         <Rack
@@ -39,7 +39,6 @@ export default function App() {
           selectedTile={currentSelection.playerTile}
           onTileSelect={onTileSelect}
         />
-
         {/*<Rack player={2} selectedTile={currentSelection.playerTile}
           onTileSelect={onTileSelect} />*/}
       </Racks>
