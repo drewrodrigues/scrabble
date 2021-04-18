@@ -5,11 +5,11 @@ import Cell from "./cell";
 interface BoardProps {
   cells: string[][];
   onCellSelect: (row: number, col: number) => void;
+  currentlySelectedCell: number[] | undefined;
 }
 
-export default function Board({ cells, onCellSelect }: BoardProps) {
+export default function Board({ cells, onCellSelect, currentlySelectedCell }: BoardProps) {
   const onCellClick = (row: number, column: number) => {
-    alert(`You clicked row: ${row}, column: ${column}`);
     onCellSelect(row, column);
   };
 
@@ -21,7 +21,7 @@ export default function Board({ cells, onCellSelect }: BoardProps) {
         <section className="row" key={i}>
           {row.map((letter, j) => {
             return (
-              <Cell letter={letter} row={i} col={j} onClick={onCellClick} />
+              <Cell letter={letter} row={i} col={j} onClick={onCellClick} currentlySelectedCell={currentlySelectedCell} />
             );
           })}
         </section>
