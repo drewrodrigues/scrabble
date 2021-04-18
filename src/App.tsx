@@ -37,8 +37,9 @@ export default function App() {
           selectedTile={currentSelection.playerTile}
           onTileSelect={onTileSelect}
         />
-        <Rack player={2} selectedTile={currentSelection.playerTile}
-          onTileSelect={onTileSelect} />
+
+        {/*<Rack player={2} selectedTile={currentSelection.playerTile}
+          onTileSelect={onTileSelect} />*/}
       </Racks>
     </div>
   );
