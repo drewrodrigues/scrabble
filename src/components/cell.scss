@@ -2,9 +2,20 @@
   background-color: #557215;
   border: 1px solid #6c921b;
   cursor: pointer;
-  height: 30px;
-  width: 30px;
+  font-size: 10px;
+  height: 50px;
+  width: 50px;
   transition: all 0.25s ease-in-out;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+
+  &--double-letter {
+    background: deepskyblue;
+  }
 
   &--triple-word {
     background: red;

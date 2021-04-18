@@ -14,6 +14,7 @@ interface CellProps {
 export default function Cell({ row, col, letter, onClick, currentlySelectedCell }: CellProps) {
   const isSelected = currentlySelectedCell && currentlySelectedCell[0] === row && currentlySelectedCell[1] === col;
   const bonus = BONUS_CELLS[row][col];
+  const bonusText = bonus && bonus.replace('-', ' ');
 
   return (
     <span
@@ -21,7 +22,7 @@ export default function Cell({ row, col, letter, onClick, currentlySelectedCell 
       onClick={() => onClick(row, col)}
       key={col}
     >
-      {letter}
+      {letter || bonusText}
     </span>
   );
 }
