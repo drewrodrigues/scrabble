@@ -11,7 +11,7 @@ const INITIAL_CELLS = new Array(15).fill(new Array(15).fill(null));
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
   const [cells, setCells] = useState<string[][]>(INITIAL_CELLS);
-  const [currentSelection, setCurrentSelection] = useState<{playerTile: string, boardPos: number[] | undefined}>({
+  const [currentSelection, setCurrentSelection] = useState<{ playerTile: string, boardPos: number[] | undefined }>({
     playerTile: "",
     boardPos: undefined
   });
@@ -37,7 +37,8 @@ export default function App() {
           selectedTile={currentSelection.playerTile}
           onTileSelect={onTileSelect}
         />
-        <Rack player={2} />
+        <Rack player={2} selectedTile={currentSelection.playerTile}
+          onTileSelect={onTileSelect} />
       </Racks>
     </div>
   );
