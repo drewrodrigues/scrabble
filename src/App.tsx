@@ -29,7 +29,7 @@ export default function App() {
   return (
     <div className="App">
       <p>It's player {playerTurn}'s turn</p>
-      <Board cells={cells} onCellSelect={onCellSelect} />
+      <Board cells={cells} onCellSelect={onCellSelect} currentlySelectedCell={currentSelection.boardPos}/>
 
       <Racks>
         <Rack
