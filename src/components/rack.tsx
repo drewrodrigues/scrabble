@@ -1,3 +1,4 @@
+import React from 'react';
 import "./rack.scss";
 
 const tiles = ["A", "B", "C", "D", "E", "F", "G"];

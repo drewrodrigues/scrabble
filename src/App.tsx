@@ -1,3 +1,4 @@
+import React from 'react';
 import "./styles.css";
 import { useState } from "react";
 import Board from "./components/board";
@@ -10,17 +11,17 @@ const INITIAL_CELLS = new Array(15).fill(new Array(15).fill(null));
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
   const [cells, setCells] = useState<string[][]>(INITIAL_CELLS);
-  const [currentSelection, setCurrentSelection] = useState({
+  const [currentSelection, setCurrentSelection] = useState<{playerTile: string, boardPos: number[] | undefined}>({
     playerTile: "",
-    boardPos: []
+    boardPos: undefined
   });
 
-  function onCellSelect(row, column) {
+  function onCellSelect(row: number, column: number) {
     setCurrentSelection((prev) => ({ ...prev, boardPos: [row, column] }));
     console.log(currentSelection);
   }
 
-  function onTileSelect(selectedTile) {
+  function onTileSelect(selectedTile: string) {
     setCurrentSelection((prev) => ({ ...prev, playerTile: selectedTile }));
     console.log(currentSelection);
   }
