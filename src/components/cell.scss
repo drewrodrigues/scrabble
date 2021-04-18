@@ -14,16 +14,28 @@
   line-height: 1;
 
   &--double-letter {
-    background: deepskyblue;
+    background: linear-gradient(skyblue, cornflowerblue);
+  }
+
+  &--triple-letter {
+    background: linear-gradient(dodgerblue, #1661ff);
+  }
+
+  &--double-word {
+    background: linear-gradient(yellow, orange);
   }
 
   &--triple-word {
-    background: red;
+    background: linear-gradient(#ff8605, red);
   }
 
   &--is-selected {
     box-shadow: 0 0 10px #222;
     transform: scale(1.25);
+  }
+
+  &--is-center {
+    background: yellow;
   }
 
   &:hover {
