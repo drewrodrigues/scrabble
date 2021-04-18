@@ -13,8 +13,6 @@ export default function Board({ cells, onCellSelect, currentlySelectedCell }: Bo
     onCellSelect(row, column);
   };
 
-  console.log(JSON.stringify(cells));
-
   return (
     <main className="board">
       {cells.map((row, i) => (
