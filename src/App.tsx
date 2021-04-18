@@ -6,7 +6,7 @@ import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
 
 const PLAYERS = 2;
-const INITIAL_CELLS = new Array(15).fill(new Array(15).fill(null));
+var INITIAL_CELLS = Array(15).fill(null).map(() => Array(15).fill(null));
 
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
@@ -18,18 +18,20 @@ export default function App() {
 
   function onCellSelect(row: number, column: number) {
     setCurrentSelection((prev) => ({ ...prev, boardPos: [row, column] }));
-    console.log(currentSelection);
   }
 
   function onTileSelect(selectedTile: string) {
     setCurrentSelection((prev) => ({ ...prev, playerTile: selectedTile }));
-    console.log(currentSelection);
+  }
+
+  if (currentSelection.boardPos !== undefined && currentSelection.playerTile !== "") {
+    console.log("Tile " + currentSelection.playerTile + " is selected at " + currentSelection.boardPos);
   }
 
   return (
     <div className="App">
       <p>It's player {playerTurn}'s turn</p>
-      <Board cells={cells} onCellSelect={onCellSelect} currentlySelectedCell={currentSelection.boardPos}/>
+      <Board cells={cells} onCellSelect={onCellSelect} currentlySelectedCell={currentSelection.boardPos} currentPlayerTile={currentSelection.playerTile} />
 
       <Racks>
         <Rack
