@@ -3,7 +3,7 @@ export enum Bonuses {
   TRIPLE_WORD = "triple-word",
 
   DOUBLE_LETTER = "double-letter",
-  TRIPLE_LETTER = "triple-letter"
+  TRIPLE_LETTER = "triple-letter",
 }
 
 const HALF_OF_BONUS_CELLS = [
@@ -22,7 +22,7 @@ const HALF_OF_BONUS_CELLS = [
     Bonuses.DOUBLE_LETTER,
     null,
     null,
-    Bonuses.TRIPLE_WORD
+    Bonuses.TRIPLE_WORD,
   ],
   [
     null,
@@ -39,7 +39,7 @@ const HALF_OF_BONUS_CELLS = [
     null,
     null,
     Bonuses.DOUBLE_WORD,
-    null
+    null,
   ],
   [
     null,
@@ -56,7 +56,7 @@ const HALF_OF_BONUS_CELLS = [
     null,
     Bonuses.DOUBLE_WORD,
     null,
-    null
+    null,
   ],
   [
     null,
@@ -73,7 +73,7 @@ const HALF_OF_BONUS_CELLS = [
     Bonuses.DOUBLE_WORD,
     null,
     null,
-    null
+    null,
   ],
   [
     null,
@@ -90,7 +90,7 @@ const HALF_OF_BONUS_CELLS = [
     null,
     null,
     null,
-    null
+    null,
   ],
   [
     null,
@@ -107,7 +107,7 @@ const HALF_OF_BONUS_CELLS = [
     null,
     null,
     null,
-    null
+    null,
   ],
   [
     null,
@@ -124,8 +124,10 @@ const HALF_OF_BONUS_CELLS = [
     null,
     null,
     null,
-    null
+    null,
   ],
 ];
 
-export const BONUS_CELLS = HALF_OF_BONUS_CELLS.concat([new Array(14).fill(null)]).concat(Array.from(HALF_OF_BONUS_CELLS).reverse());
+export const BONUS_CELLS = HALF_OF_BONUS_CELLS.concat([
+  new Array(14).fill(null),
+]).concat(Array.from(HALF_OF_BONUS_CELLS).reverse());
