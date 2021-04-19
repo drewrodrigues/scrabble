@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import "./board.scss";
 import Cell from "./cell";
 
@@ -9,7 +9,12 @@ interface BoardProps {
   currentlySelectedTile: string;
 }
 
-export default function Board({ cells, onCellSelect, currentlySelectedCell, currentlySelectedTile }: BoardProps) {
+export default function Board({
+  cells,
+  onCellSelect,
+  currentlySelectedCell,
+  currentlySelectedTile,
+}: BoardProps) {
   const onCellClick = (row: number, column: number) => {
     onCellSelect(row, column);
   };
@@ -21,9 +26,21 @@ export default function Board({ cells, onCellSelect, currentlySelectedCell, curr
       {cells.map((row, i) => (
         <section className="row" key={i}>
           {row.map((cellLetter, j) => {
-            const selectedOrCellLetter = currentlySelectedCell && currentlySelectedCell[0] === i && currentlySelectedCell[1] === j ? currentlySelectedTile : cellLetter;
+            const selectedOrCellLetter =
+              currentlySelectedCell &&
+              currentlySelectedCell[0] === i &&
+              currentlySelectedCell[1] === j
+                ? currentlySelectedTile
+                : cellLetter;
             return (
-              <Cell key={j} letter={selectedOrCellLetter} row={i} col={j} onClick={onCellClick} currentlySelectedCell={currentlySelectedCell} />
+              <Cell
+                key={j}
+                letter={selectedOrCellLetter}
+                row={i}
+                col={j}
+                onClick={onCellClick}
+                currentlySelectedCell={currentlySelectedCell}
+              />
             );
           })}
         </section>
