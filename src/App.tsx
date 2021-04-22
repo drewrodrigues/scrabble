@@ -12,30 +12,37 @@ const INITIAL_CELLS = Array(15)
   .fill(null)
   .map(() => Array(15).fill(null));
 
+interface CurrentTurn {
+  letter: string;
+  row: number;
+  column: number;
+}
+
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
   const [cells, setCells] = useState<string[][]>(INITIAL_CELLS);
-  const [currentPlayerTile, setCurrentPlayerTile] = useState<string | undefined>();
-  const [currentTurn, setCurrentTurn] = useState<{ letter: string, row: number, column: number }[]>([])
+  const [currentlySelectedTile, setcurrentlySelectedTile] = useState<string | undefined>();
+  const [currentTurn, setCurrentTurn] = useState<CurrentTurn[]>([])
 
   function onCellSelect(row: number, column: number) {
-    if (currentPlayerTile) {
+    if (currentlySelectedTile) {
       const newCurrentTurn = Array.from(currentTurn);
-      newCurrentTurn.push({ letter: currentPlayerTile, row: row, column: column });
+      newCurrentTurn.push({ letter: currentlySelectedTile, row: row, column: column });
       setCurrentTurn(newCurrentTurn);
+      setcurrentlySelectedTile(undefined);
     } else {
-      throw new Error("Current player tile not set")
+      console.log("No tile selected")
     }
   }
 
   function onTileSelect(selectedTile: string) {
-    setCurrentPlayerTile(selectedTile);
+    setcurrentlySelectedTile(selectedTile);
   }
 
   const cellsAndCurrentTurn = useMemo(() => {
     const cellsAndCurrentTurn = Array.from(cells);
-    currentTurn.map((piece) => {
-      cellsAndCurrentTurn[piece.row][piece.column] = piece.letter;
+    currentTurn.map((cell) => {
+      cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
     })
     return cellsAndCurrentTurn
   }, [currentTurn])
@@ -54,7 +61,7 @@ export default function App() {
       <Racks>
         <Rack
           player={1}
-          selectedTile={currentPlayerTile}
+          selectedTile={currentlySelectedTile}
           onTileSelect={onTileSelect}
         />
       </Racks>

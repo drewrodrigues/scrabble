@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import "./rack.scss";
 
@@ -15,13 +16,13 @@ export function Rack({ player, selectedTile, onTileSelect }: RackProps) {
       {tiles.map((tile, index) => (
         <div
           key={index}
-          className={`playerTile ${selectedTile === tile ? "selectedTile" : ""
-            }`}
+          className={classNames("playerTile", { "selectedTile": selectedTile === tile })}
           onClick={() => onTileSelect(tile)}
         >
           {tile}
         </div>
-      ))}
-    </div>
+      ))
+      }
+    </div >
   );
 }
