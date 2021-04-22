@@ -29,11 +29,6 @@
     background: linear-gradient(#ff8605, red);
   }
 
-  &--is-selected {
-    box-shadow: 0 0 10px #222;
-    transform: scale(1.25);
-  }
-
   &--is-center {
     background: yellow;
   }

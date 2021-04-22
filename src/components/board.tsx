@@ -5,16 +5,9 @@ import Cell from "./cell";
 interface BoardProps {
   cells: string[][];
   onCellSelect: (row: number, col: number) => void;
-  currentlySelectedCell: number[] | undefined;
-  currentlySelectedTile: string;
 }
 
-export default function Board({
-  cells,
-  onCellSelect,
-  currentlySelectedCell,
-  currentlySelectedTile,
-}: BoardProps) {
+export default function Board({ cells, onCellSelect }: BoardProps) {
   const onCellClick = (row: number, column: number) => {
     onCellSelect(row, column);
   };
@@ -26,20 +19,15 @@ export default function Board({
       {cells.map((row, i) => (
         <section className="row" key={i}>
           {row.map((cellLetter, j) => {
-            const selectedOrCellLetter =
-              currentlySelectedCell &&
-              currentlySelectedCell[0] === i &&
-              currentlySelectedCell[1] === j
-                ? currentlySelectedTile
-                : cellLetter;
+            // here we need to check currentTurn (new state) and pass it in
+            // since it's temporary
             return (
               <Cell
                 key={j}
-                letter={selectedOrCellLetter}
+                letter={cellLetter}
                 row={i}
                 col={j}
                 onClick={onCellClick}
-                currentlySelectedCell={currentlySelectedCell}
               />
             );
           })}

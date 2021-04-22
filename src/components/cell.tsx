@@ -8,20 +8,9 @@ interface CellProps {
   col: number;
   onClick: (row: number, col: number) => void;
   letter?: string;
-  currentlySelectedCell?: number[];
 }
 
-export default function Cell({
-  row,
-  col,
-  letter,
-  onClick,
-  currentlySelectedCell,
-}: CellProps) {
-  const isSelected =
-    currentlySelectedCell &&
-    currentlySelectedCell[0] === row &&
-    currentlySelectedCell[1] === col;
+export default function Cell({ row, col, letter, onClick }: CellProps) {
   const bonus = BONUS_CELLS[row][col];
   const bonusText = bonus && bonus.replace("-", " ");
   const isCenter = row === 7 && col === 7;
@@ -29,7 +18,6 @@ export default function Cell({
   return (
     <span
       className={classNames("cell", {
-        "cell--is-selected": isSelected,
         [`cell--${bonus}`]: bonus,
         "cell--is-center": isCenter,
       })}
