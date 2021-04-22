@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./styles.css";
 import { useState } from "react";
 import Board from "./components/board";
@@ -15,29 +15,35 @@ const INITIAL_CELLS = Array(15)
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
   const [cells, setCells] = useState<string[][]>(INITIAL_CELLS);
-  const [currentSelection, setCurrentSelection] = useState<{
-    playerTile: string;
-  }>({
-    playerTile: "",
-  });
+  const [currentPlayerTile, setCurrentPlayerTile] = useState<string | undefined>();
+  const [currentTurn, setCurrentTurn] = useState<{ letter: string, row: number, column: number }[]>([])
 
   function onCellSelect(row: number, column: number) {
-    // here we can add to state `currentTurn` which might be an array
-    setCurrentSelection((prev) => ({ ...prev }));
+    if (currentPlayerTile) {
+      const newCurrentTurn = Array.from(currentTurn);
+      newCurrentTurn.push({ letter: currentPlayerTile, row: row, column: column });
+      setCurrentTurn(newCurrentTurn);
+    } else {
+      throw new Error("Current player tile not set")
+    }
   }
 
   function onTileSelect(selectedTile: string) {
-    setCurrentSelection((prev) => ({ ...prev, playerTile: selectedTile }));
+    setCurrentPlayerTile(selectedTile);
   }
 
-  if (currentSelection.playerTile !== "") {
-    console.log("Tile " + currentSelection.playerTile + " is selected");
-  }
+  const cellsAndCurrentTurn = useMemo(() => {
+    const cellsAndCurrentTurn = Array.from(cells);
+    currentTurn.map((piece) => {
+      cellsAndCurrentTurn[piece.row][piece.column] = piece.letter;
+    })
+    return cellsAndCurrentTurn
+  }, [currentTurn])
 
   return (
     <div className="App">
       <p>It's player {playerTurn}'s turn</p>
-      <Board cells={cells} onCellSelect={onCellSelect} />
+      <Board cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
 
       <CompleteTurn
         onClick={() => null}
@@ -48,11 +54,9 @@ export default function App() {
       <Racks>
         <Rack
           player={1}
-          selectedTile={currentSelection.playerTile}
+          selectedTile={currentPlayerTile}
           onTileSelect={onTileSelect}
         />
-        {/*<Rack player={2} selectedTile={currentSelection.playerTile}
-          onTileSelect={onTileSelect} />*/}
       </Racks>
     </div>
   );

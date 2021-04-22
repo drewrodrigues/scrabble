@@ -19,8 +19,6 @@ export default function Board({ cells, onCellSelect }: BoardProps) {
       {cells.map((row, i) => (
         <section className="row" key={i}>
           {row.map((cellLetter, j) => {
-            // here we need to check currentTurn (new state) and pass it in
-            // since it's temporary
             return (
               <Cell
                 key={j}
