@@ -15,41 +15,27 @@ export default function App() {
   const [cells, setCells] = useState<string[][]>(INITIAL_CELLS);
   const [currentSelection, setCurrentSelection] = useState<{
     playerTile: string;
-    boardPos: number[] | undefined;
   }>({
     playerTile: "",
-    boardPos: undefined,
   });
 
   function onCellSelect(row: number, column: number) {
-    setCurrentSelection((prev) => ({ ...prev, boardPos: [row, column] }));
+    // here we can add to state `currentTurn` which might be an array
+    setCurrentSelection((prev) => ({ ...prev }));
   }
 
   function onTileSelect(selectedTile: string) {
     setCurrentSelection((prev) => ({ ...prev, playerTile: selectedTile }));
   }
 
-  if (
-    currentSelection.boardPos !== undefined &&
-    currentSelection.playerTile !== ""
-  ) {
-    console.log(
-      "Tile " +
-        currentSelection.playerTile +
-        " is selected at " +
-        currentSelection.boardPos
-    );
+  if (currentSelection.playerTile !== "") {
+    console.log("Tile " + currentSelection.playerTile + " is selected");
   }
 
   return (
     <div className="App">
       <p>It's player {playerTurn}'s turn</p>
-      <Board
-        cells={cells}
-        onCellSelect={onCellSelect}
-        currentlySelectedCell={currentSelection.boardPos}
-        currentlySelectedTile={currentSelection.playerTile}
-      />
+      <Board cells={cells} onCellSelect={onCellSelect} />
 
       <Racks>
         <Rack
