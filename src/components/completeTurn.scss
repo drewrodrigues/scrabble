@@ -1,0 +1,20 @@
+@keyframes bounce {
+  from { transform: scale(1) }
+  to { transform: scale(1.075) }
+}
+
+.completeTurn {
+  background: linear-gradient(lightgreen, #00b700);
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+  transition: 250ms background;
+  animation: bounce 1s infinite alternate ease-out;
+
+  &:disabled {
+    background: #ccc;
+  }
+}
