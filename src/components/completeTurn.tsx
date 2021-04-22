@@ -1,6 +1,5 @@
 import React from "react";
 import "./completeTurn.scss";
-import classNames from "classnames";
 
 interface CompleteTurnProps {
   onClick: () => void;
@@ -12,11 +11,7 @@ export default function CompleteTurn({
   isDisabled,
 }: CompleteTurnProps) {
   return (
-    <button
-      onClick={onClick}
-      disabled={isDisabled}
-      className={classNames("completeTurn")}
-    >
+    <button onClick={onClick} disabled={isDisabled} className="completeTurn">
       {isDisabled ? "Place some tiles..." : "Complete turn"}
     </button>
   );
