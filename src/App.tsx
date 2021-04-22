@@ -4,6 +4,8 @@ import { useState } from "react";
 import Board from "./components/board";
 import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
+import CompleteTurn from "./components/completeTurn";
+import "./styles/reset.scss";
 
 const PLAYERS = 2;
 const INITIAL_CELLS = Array(15)
@@ -36,6 +38,12 @@ export default function App() {
     <div className="App">
       <p>It's player {playerTurn}'s turn</p>
       <Board cells={cells} onCellSelect={onCellSelect} />
+
+      <CompleteTurn
+        onClick={() => null}
+        // TODO: @drew change this to check for array length of current turn
+        isDisabled={!currentSelection.playerTile}
+      />
 
       <Racks>
         <Rack
