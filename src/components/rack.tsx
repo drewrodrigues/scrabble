@@ -21,8 +21,7 @@ export function Rack({ player, selectedTile, onTileSelect }: RackProps) {
         >
           {tile}
         </div>
-      ))
-      }
+      ))}
     </div >
   );
 }
