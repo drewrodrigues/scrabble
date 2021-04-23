@@ -10,7 +10,7 @@ import "./styles/reset.scss";
 import validate from "./utils/validate";
 import { cloneDeep } from "lodash";
 
-const PLAYERS = 2;
+const PLAYER_COUNT = 2;
 const INITIAL_CELLS = Array(15)
   .fill(null)
   .map(() => Array(15).fill(null));
@@ -74,6 +74,7 @@ export default function App() {
     try {
       validate(cells, currentTurn);
       addCurrentTurnToCells();
+      goToNextPlayer();
     } catch (e) {
       console.error(e);
     }
@@ -82,6 +83,12 @@ export default function App() {
   function addCurrentTurnToCells() {
     setCells(cellsAndCurrentTurn);
     setCurrentTurn([]);
+  }
+
+  function goToNextPlayer() {
+    setPlayerTurn(
+      (previousPlayerNumber) => (previousPlayerNumber + 1) % PLAYER_COUNT
+    );
   }
 
   return (
@@ -97,10 +104,18 @@ export default function App() {
 
       <Racks>
         <Rack
+          player={0}
+          selectedTileIndex={currentlySelectedTileIndex}
+          onTileSelect={onTileSelect}
+          tiles={tilesOnRack}
+          isActive={playerTurn === 0}
+        />
+        <Rack
           player={1}
           selectedTileIndex={currentlySelectedTileIndex}
           onTileSelect={onTileSelect}
           tiles={tilesOnRack}
+          isActive={playerTurn === 1}
         />
       </Racks>
     </div>
