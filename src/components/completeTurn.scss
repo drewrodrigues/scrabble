@@ -1,3 +1,5 @@
+@import "../styles/variables.scss";
+
 @keyframes bounce {
   from { transform: scale(1) }
   to { transform: scale(1.075) }
@@ -16,6 +18,7 @@
 
   &:disabled {
     animation: none;
-    background: #ccc;
+    background: $highlight-color;
+    cursor: not-allowed;
   }
 }

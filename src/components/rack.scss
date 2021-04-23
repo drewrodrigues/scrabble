@@ -6,7 +6,9 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: $rack-background-color;
+  background-color: $cell-background-color;
+  border-top: $cell-border-top;
+  border-left: $cell-border-left;
   -webkit-box-shadow: 5px 10px 25px -8px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 5px 10px 25px -8px rgba(0, 0, 0, 0.5);
   box-shadow: 5px 10px 25px -8px rgba(0, 0, 0, 0.5);
@@ -32,9 +34,9 @@
 
 .playerTile:hover {
   cursor: pointer;
-  background-color: #ead595;
+  background-color: $highlight-color;
 }
 
 .selectedTile {
-  background-color: #ff9900;
+  background-color: #f99933;
 }

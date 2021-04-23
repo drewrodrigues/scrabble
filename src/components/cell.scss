@@ -1,8 +1,7 @@
 @import "../styles/variables.scss";
 
 .cell {
-  background-color: #557215;
-  border: 1px solid $board-background-color;
+  background-color: #2e4f62;
   cursor: pointer;
   font-size: 10px;
   height: 45px;
@@ -14,29 +13,35 @@
   align-items: center;
   text-align: center;
   line-height: 1;
+  color: $cell-text-color;
+  border-radius: 10px;
+  margin: 2px;
+  border-top: 1px solid #426d86;
+  border-left: 1px solid #376077;
 
   &--double-letter {
-    background: linear-gradient(skyblue, cornflowerblue);
+    background: #3baaf1;
   }
 
   &--triple-letter {
-    background: linear-gradient(dodgerblue, #1661ff);
+    background: #4de860;
   }
 
   &--double-word {
-    background: linear-gradient(yellow, orange);
+    background: #e1474f;
   }
 
   &--triple-word {
-    background: linear-gradient(#ff8605, red);
+    background: #f99933;
   }
 
   &--is-center {
-    background: yellow;
+    background: $highlight-color;
   }
 
   &--is-filled {
     background: $default-tile-color;
+    color:$default-tile-text-color;
   }
 
   &:hover {

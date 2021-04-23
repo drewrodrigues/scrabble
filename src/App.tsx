@@ -75,7 +75,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <p>It's player {playerTurn}'s turn</p>
+      <p className="turn-notification">It's player {playerTurn}'s turn</p>
       <Board cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
 
       <CompleteTurn
