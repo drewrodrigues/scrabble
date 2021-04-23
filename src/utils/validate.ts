@@ -58,10 +58,10 @@ function _validateRowOrColumnAllEqual(
   const shouldBeStaticValue = currentTurn.map(
     (cell) => cell[direction === Direction.Vertical ? "column" : "row"]
   );
-  const allStaticValuesEqual = shouldBeStaticValue.every(
+  const areAllStaticValuesEqual = shouldBeStaticValue.every(
     (value) => value === shouldBeStaticValue[0]
   );
-  if (!allStaticValuesEqual) {
+  if (!areAllStaticValuesEqual) {
     throw new Error(
       `Cells are not concurrently ${direction} and they are expected to be`
     );
