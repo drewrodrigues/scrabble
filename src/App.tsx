@@ -12,7 +12,6 @@ const PLAYERS = 2;
 const INITIAL_CELLS = Array(15)
   .fill(null)
   .map(() => Array(15).fill(null));
-const tilesOnRack = ["A", "B", "C", "D", "E", "F", "G"];
 
 interface CurrentTurn {
   letter: string;
@@ -27,6 +26,7 @@ export default function App() {
     number | undefined
   >();
   const [currentTurn, setCurrentTurn] = useState<CurrentTurn[]>([]);
+  const [tilesOnRack, setTilesOnRack] = useState<string[]>(["A", "B", "C", "D", "E", "F", "G"]);
 
   function onCellSelect(row: number, column: number) {
     if (currentlySelectedTile !== undefined) {
@@ -38,7 +38,9 @@ export default function App() {
       });
       setCurrentTurn(newCurrentTurn);
       setCurrentlySelectedTile(undefined);
-      tilesOnRack.splice(currentlySelectedTile, 1);
+      const newTilesOnRack = tilesOnRack;
+      newTilesOnRack.splice(currentlySelectedTile, 1);
+      setTilesOnRack(newTilesOnRack);
     } else {
       console.log("No tile selected");
     }
