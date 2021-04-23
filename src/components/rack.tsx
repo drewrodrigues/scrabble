@@ -23,7 +23,7 @@ export function Rack({
         <div
           key={index}
           className={classNames("playerTile", {
-            selectedTile: selectedTileIndex === index,
+            selectedTile: isActive && selectedTileIndex === index,
           })}
           onClick={() => onTileSelect(index)}
         >
