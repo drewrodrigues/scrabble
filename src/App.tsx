@@ -8,8 +8,10 @@ import CompleteTurn from "./components/completeTurn";
 import "./styles/variables.scss";
 import "./styles/reset.scss";
 import validate from "./utils/validate";
+import { cloneDeep } from "lodash";
+import Error from "./components/error";
 
-const PLAYERS = 2;
+const PLAYER_COUNT = 2;
 const INITIAL_CELLS = Array(15)
   .fill(null)
   .map(() => Array(15).fill(null));
@@ -29,29 +31,26 @@ export default function App() {
     number | undefined
   >();
   const [currentTurn, setCurrentTurn] = useState<CurrentTurn[]>([]);
-  const [tilesOnRack, setTilesOnRack] = useState<string[]>([
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
+  const [playerRacks, setPlayerRacks] = useState<string[][]>([
+    ["A", "B", "C", "D", "E", "F", "G"],
+    ["A", "B", "C", "D", "E", "F", "G"],
   ]);
+  const [errorMessage, setError] = useState<string | undefined>();
 
   function onCellSelect(row: number, column: number) {
     if (currentlySelectedTileIndex !== undefined) {
       const newCurrentTurn = Array.from(currentTurn);
       newCurrentTurn.push({
-        letter: tilesOnRack[currentlySelectedTileIndex],
+        letter: playerRacks[playerTurn][currentlySelectedTileIndex],
         row: row,
         column: column,
       });
       setCurrentTurn(newCurrentTurn);
       setCurrentlySelectedTileIndex(undefined);
-      const newTilesOnRack = Array.from(tilesOnRack);
-      newTilesOnRack.splice(currentlySelectedTileIndex, 1);
-      setTilesOnRack(newTilesOnRack);
+      setError(undefined);
+      const newTilesOnRack = Array.from(playerRacks);
+      newTilesOnRack[playerTurn].splice(currentlySelectedTileIndex, 1);
+      setPlayerRacks(newTilesOnRack);
     } else {
       console.log("No tile selected");
     }
@@ -62,15 +61,32 @@ export default function App() {
   }
 
   const cellsAndCurrentTurn = useMemo(() => {
-    const cellsAndCurrentTurn = Array.from(cells);
+    const cellsAndCurrentTurn = cloneDeep(cells);
     currentTurn.map((cell) => {
       cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
     });
     return cellsAndCurrentTurn;
-  }, [currentTurn]);
+  }, [currentTurn, cells]);
 
   function onCompleteTurn() {
-    validate(cells, currentTurn);
+    try {
+      validate(cells, currentTurn);
+      addCurrentTurnToCells();
+      goToNextPlayer();
+    } catch (e) {
+      setError(e.message);
+    }
+  }
+
+  function addCurrentTurnToCells() {
+    setCells(cellsAndCurrentTurn);
+    setCurrentTurn([]);
+  }
+
+  function goToNextPlayer() {
+    setPlayerTurn(
+      (previousPlayerNumber) => (previousPlayerNumber + 1) % PLAYER_COUNT
+    );
   }
 
   return (
@@ -78,18 +94,29 @@ export default function App() {
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
       <Board cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
 
-      <CompleteTurn
-        onClick={onCompleteTurn}
-        // TODO: @drew change this to check for array length of current turn
-        isDisabled={!currentTurn.length}
-      />
+      {errorMessage ? (
+        <Error message={errorMessage} />
+      ) : (
+        <CompleteTurn
+          onClick={onCompleteTurn}
+          isDisabled={!currentTurn.length}
+        />
+      )}
 
       <Racks>
+        <Rack
+          player={0}
+          selectedTileIndex={currentlySelectedTileIndex}
+          onTileSelect={onTileSelect}
+          tiles={playerRacks[0]}
+          isActive={playerTurn === 0}
+        />
         <Rack
           player={1}
           selectedTileIndex={currentlySelectedTileIndex}
           onTileSelect={onTileSelect}
-          tiles={tilesOnRack}
+          tiles={playerRacks[1]}
+          isActive={playerTurn === 1}
         />
       </Racks>
     </div>

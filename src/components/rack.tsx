@@ -7,20 +7,33 @@ interface RackProps {
   tiles: string[];
   selectedTileIndex: number | undefined;
   onTileSelect: (selectedTile: number) => void;
+  isActive: boolean;
 }
 
-export function Rack({ player, tiles, selectedTileIndex, onTileSelect }: RackProps) {
+export function Rack({
+  player,
+  tiles,
+  selectedTileIndex,
+  onTileSelect,
+  isActive,
+}: RackProps) {
   return (
-    <div className="rack">
+    <div
+      className={classNames("rack", `rack--player-${player}`, {
+        "rack--is-active": isActive,
+      })}
+    >
       {tiles.map((tile, index) => (
         <div
           key={index}
-          className={classNames("playerTile", { "selectedTile": selectedTileIndex === index })}
+          className={classNames("playerTile", {
+            selectedTile: isActive && selectedTileIndex === index,
+          })}
           onClick={() => onTileSelect(index)}
         >
           {tile}
         </div>
       ))}
-    </div >
+    </div>
   );
 }
