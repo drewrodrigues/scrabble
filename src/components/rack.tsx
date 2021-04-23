@@ -18,7 +18,11 @@ export function Rack({
   isActive,
 }: RackProps) {
   return (
-    <div className={classNames("rack", { "rack--is-active": isActive })}>
+    <div
+      className={classNames("rack", `rack--player-${player}`, {
+        "rack--is-active": isActive,
+      })}
+    >
       {tiles.map((tile, index) => (
         <div
           key={index}
