@@ -4,9 +4,7 @@
   align-items: center;
   font-family: 'Poppins', sans-serif;
   padding: 60px 0;
-  background: linear-gradient(
-    45deg
-    , #152a31, #1e6680);
+  background: linear-gradient(45deg, #152a31, #1e6680);
 }
 
 .turn-notification {

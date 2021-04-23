@@ -13,11 +13,11 @@
   align-items: center;
   text-align: center;
   line-height: 1;
-  color: $cell-text-color;
+  color: $default-tile-color;
   border-radius: 10px;
   margin: 2px;
-  border-top: 1px solid #426d86;
-  border-left: 1px solid #376077;
+  border-top: $cell-border-top;
+  border-left: $cell-border-left;
 
   &--double-letter {
     background: #3baaf1;
@@ -41,7 +41,7 @@
 
   &--is-filled {
     background: $default-tile-color;
-    color:$default-tile-text-color;
+    color: $cell-background-color;
   }
 
   &:hover {
