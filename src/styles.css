@@ -3,5 +3,13 @@
   flex-direction: column;
   align-items: center;
   font-family: 'Poppins', sans-serif;
-  margin: 60px 0;
+  padding: 60px 0;
+  background: linear-gradient(
+    45deg
+    , #152a31, #1e6680);
+}
+
+.turn-notification {
+  color: white;
+  margin-bottom: 30px;
 }

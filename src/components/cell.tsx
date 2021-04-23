@@ -12,7 +12,7 @@ interface CellProps {
 
 export default function Cell({ row, col, letter, onClick }: CellProps) {
   const bonus = BONUS_CELLS[row][col];
-  const bonusText = bonus && bonus.replace("-", " ");
+  const bonusText = bonus && `${bonus[0]}${bonus[bonus.indexOf("-") + 1]}`;
   const isCenter = row === 7 && col === 7;
   const isFilled = letter !== null;
 
@@ -26,7 +26,7 @@ export default function Cell({ row, col, letter, onClick }: CellProps) {
       onClick={() => onClick(row, col)}
       key={col}
     >
-      {letter || bonusText || (isCenter ? "CENTER" : "")}
+      {letter || bonusText}
     </span>
   );
 }
