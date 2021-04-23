@@ -15,6 +15,7 @@
   animation: bounce 1s infinite alternate ease-out;
 
   &:disabled {
+    animation: none;
     background: #ccc;
   }
 }

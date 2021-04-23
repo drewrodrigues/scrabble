@@ -7,26 +7,37 @@ import { Rack } from "./components/rack";
 import CompleteTurn from "./components/completeTurn";
 import "./styles/variables.scss";
 import "./styles/reset.scss";
+import validate from "./utils/validate";
 
 const PLAYERS = 2;
 const INITIAL_CELLS = Array(15)
   .fill(null)
   .map(() => Array(15).fill(null));
 
-interface CurrentTurn {
+export interface CurrentTurn {
   letter: string;
   row: number;
   column: number;
 }
 
+export type Cells = string[][];
+
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
-  const [cells, setCells] = useState<string[][]>(INITIAL_CELLS);
+  const [cells, setCells] = useState<Cells>(INITIAL_CELLS);
   const [currentlySelectedTileIndex, setCurrentlySelectedTileIndex] = useState<
     number | undefined
   >();
   const [currentTurn, setCurrentTurn] = useState<CurrentTurn[]>([]);
-  const [tilesOnRack, setTilesOnRack] = useState<string[]>(["A", "B", "C", "D", "E", "F", "G"]);
+  const [tilesOnRack, setTilesOnRack] = useState<string[]>([
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+  ]);
 
   function onCellSelect(row: number, column: number) {
     if (currentlySelectedTileIndex !== undefined) {
@@ -58,13 +69,17 @@ export default function App() {
     return cellsAndCurrentTurn;
   }, [currentTurn]);
 
+  function onCompleteTurn() {
+    validate(cells, currentTurn);
+  }
+
   return (
     <div className="App">
       <p>It's player {playerTurn}'s turn</p>
       <Board cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
 
       <CompleteTurn
-        onClick={() => null}
+        onClick={onCompleteTurn}
         // TODO: @drew change this to check for array length of current turn
         isDisabled={!currentTurn.length}
       />
