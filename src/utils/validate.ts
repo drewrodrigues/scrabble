@@ -28,15 +28,12 @@ function _validateCurrentTurnAdjacent(currentTurn: CurrentTurn[]) {
       ? Direction.Vertical
       : Direction.Horizontal;
 
-  _verifyConcurrentDirection(direction, currentTurn);
+  _validateNoGaps(currentTurn, direction);
+  _validateRowOrColumnAllEqual(currentTurn, direction);
 }
 
-// we iterate from min to max to make sure each is present
-function _verifyConcurrentDirection(
-  direction: Direction,
-  cells: CurrentTurn[]
-) {
-  const rowOrColumnValues = cells.map(
+function _validateNoGaps(currentTurn: CurrentTurn[], direction: Direction) {
+  const rowOrColumnValues = currentTurn.map(
     (cell) => cell[direction === Direction.Vertical ? "row" : "column"]
   );
   const [min, max] = [
@@ -49,8 +46,13 @@ function _verifyConcurrentDirection(
       throw new Error("There's a gap in the cells direction");
     }
   }
+}
 
-  const shouldBeStaticValue = cells.map(
+function _validateRowOrColumnAllEqual(
+  currentTurn: CurrentTurn[],
+  direction: Direction
+) {
+  const shouldBeStaticValue = currentTurn.map(
     (cell) => cell[direction === Direction.Vertical ? "column" : "row"]
   );
   const allStaticValuesEqual = shouldBeStaticValue.every(
