@@ -21,17 +21,23 @@ interface CurrentTurn {
 export default function App() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
   const [cells, setCells] = useState<string[][]>(INITIAL_CELLS);
-  const [currentlySelectedTile, setcurrentlySelectedTile] = useState<string | undefined>();
-  const [currentTurn, setCurrentTurn] = useState<CurrentTurn[]>([])
+  const [currentlySelectedTile, setcurrentlySelectedTile] = useState<
+    string | undefined
+  >();
+  const [currentTurn, setCurrentTurn] = useState<CurrentTurn[]>([]);
 
   function onCellSelect(row: number, column: number) {
     if (currentlySelectedTile) {
       const newCurrentTurn = Array.from(currentTurn);
-      newCurrentTurn.push({ letter: currentlySelectedTile, row: row, column: column });
+      newCurrentTurn.push({
+        letter: currentlySelectedTile,
+        row: row,
+        column: column,
+      });
       setCurrentTurn(newCurrentTurn);
       setcurrentlySelectedTile(undefined);
     } else {
-      console.log("No tile selected")
+      console.log("No tile selected");
     }
   }
 
@@ -43,9 +49,9 @@ export default function App() {
     const cellsAndCurrentTurn = Array.from(cells);
     currentTurn.map((cell) => {
       cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
-    })
-    return cellsAndCurrentTurn
-  }, [currentTurn])
+    });
+    return cellsAndCurrentTurn;
+  }, [currentTurn]);
 
   return (
     <div className="App">
@@ -55,7 +61,7 @@ export default function App() {
       <CompleteTurn
         onClick={() => null}
         // TODO: @drew change this to check for array length of current turn
-        isDisabled={!currentSelection.playerTile}
+        isDisabled={!currentTurn.length}
       />
 
       <Racks>
