@@ -9,6 +9,7 @@ import "./styles/variables.scss";
 import "./styles/reset.scss";
 import validate from "./utils/validate";
 import { cloneDeep } from "lodash";
+import Error from "./components/error";
 
 const PLAYER_COUNT = 2;
 const INITIAL_CELLS = Array(15)
@@ -34,6 +35,7 @@ export default function App() {
     ["A", "B", "C", "D", "E", "F", "G"],
     ["A", "B", "C", "D", "E", "F", "G"],
   ]);
+  const [errorMessage, setError] = useState<string | undefined>();
 
   function onCellSelect(row: number, column: number) {
     if (currentlySelectedTileIndex !== undefined) {
@@ -45,6 +47,7 @@ export default function App() {
       });
       setCurrentTurn(newCurrentTurn);
       setCurrentlySelectedTileIndex(undefined);
+      setError(undefined);
       const newTilesOnRack = Array.from(playerRacks);
       newTilesOnRack[playerTurn].splice(currentlySelectedTileIndex, 1);
       setPlayerRacks(newTilesOnRack);
@@ -71,7 +74,7 @@ export default function App() {
       addCurrentTurnToCells();
       goToNextPlayer();
     } catch (e) {
-      console.error(e);
+      setError(e.message);
     }
   }
 
@@ -91,11 +94,14 @@ export default function App() {
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
       <Board cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
 
-      <CompleteTurn
-        onClick={onCompleteTurn}
-        // TODO: @drew change this to check for array length of current turn
-        isDisabled={!currentTurn.length}
-      />
+      {errorMessage ? (
+        <Error message={errorMessage} />
+      ) : (
+        <CompleteTurn
+          onClick={onCompleteTurn}
+          isDisabled={!currentTurn.length}
+        />
+      )}
 
       <Racks>
         <Rack
