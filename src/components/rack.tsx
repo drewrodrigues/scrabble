@@ -2,22 +2,21 @@ import classNames from "classnames";
 import React from "react";
 import "./rack.scss";
 
-const tiles = ["A", "B", "C", "D", "E", "F", "G"];
-
 interface RackProps {
   player: number;
-  selectedTile: string | undefined;
-  onTileSelect: (selectedTile: string) => void;
+  tiles: string[];
+  selectedTile: number | undefined;
+  onTileSelect: (selectedTile: number) => void;
 }
 
-export function Rack({ player, selectedTile, onTileSelect }: RackProps) {
+export function Rack({ player, tiles, selectedTile, onTileSelect }: RackProps) {
   return (
     <div className="rack">
       {tiles.map((tile, index) => (
         <div
           key={index}
-          className={classNames("playerTile", { "selectedTile": selectedTile === tile })}
-          onClick={() => onTileSelect(tile)}
+          className={classNames("playerTile", { "selectedTile": selectedTile === index })}
+          onClick={() => onTileSelect(index)}
         >
           {tile}
         </div>
