@@ -14,14 +14,14 @@ export default function Cell({ row, col, letter, onClick }: CellProps) {
   const bonus = BONUS_CELLS[row][col];
   const bonusText = bonus && bonus.replace("-", " ");
   const isCenter = row === 7 && col === 7;
-  const hasLetter = letter !== null;
+  const isFilled = letter !== null;
 
   return (
     <span
       className={classNames("cell", {
         [`cell--${bonus}`]: bonus,
         "cell--is-center": isCenter,
-        "cell--is-filled": hasLetter
+        "cell--is-filled": isFilled
       })}
       onClick={() => onClick(row, col)}
       key={col}

@@ -1,7 +1,7 @@
 @import "../styles/variables.scss";
 
 .cell {
-  background-color: $cell-color;
+  background-color: #557215;
   border: 1px solid $board-background-color;
   cursor: pointer;
   font-size: 10px;
@@ -16,23 +16,23 @@
   line-height: 1;
 
   &--double-letter {
-    background: $double-letter-tile-color;
+    background: linear-gradient(skyblue, cornflowerblue);
   }
 
   &--triple-letter {
-    background: $triple-letter-tile-color;
+    background: linear-gradient(dodgerblue, #1661ff);
   }
 
   &--double-word {
-    background: $double-word-tile-color;
+    background: linear-gradient(yellow, orange);
   }
 
   &--triple-word {
-    background: $triple-word-tile-color;
+    background: linear-gradient(#ff8605, red);
   }
 
   &--is-center {
-    background: $center-tile-color;
+    background: yellow;
   }
 
   &--is-filled {
