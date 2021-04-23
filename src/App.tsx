@@ -8,6 +8,7 @@ import CompleteTurn from "./components/completeTurn";
 import "./styles/variables.scss";
 import "./styles/reset.scss";
 import validate from "./utils/validate";
+import { cloneDeep } from "lodash";
 
 const PLAYERS = 2;
 const INITIAL_CELLS = Array(15)
@@ -62,12 +63,12 @@ export default function App() {
   }
 
   const cellsAndCurrentTurn = useMemo(() => {
-    const cellsAndCurrentTurn = Array.from(cells);
+    const cellsAndCurrentTurn = cloneDeep(cells);
     currentTurn.map((cell) => {
       cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
     });
     return cellsAndCurrentTurn;
-  }, [currentTurn]);
+  }, [currentTurn, cells]);
 
   function onCompleteTurn() {
     validate(cells, currentTurn);
