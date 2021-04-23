@@ -5,6 +5,7 @@ import Board from "./components/board";
 import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
 import CompleteTurn from "./components/completeTurn";
+import "./styles/variables.scss";
 import "./styles/reset.scss";
 
 const PLAYERS = 2;

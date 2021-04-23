@@ -1,9 +1,11 @@
+@import "../styles/variables.scss";
+
 .rack {
   margin-top: 20px;
   text-align: left;
   display: flex;
   justify-content: space-between;
-  background-color: #6c921b;
+  background-color: $rack-background-color;
   padding: 20px;
   -webkit-box-shadow: 5px 10px 25px -8px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 5px 10px 25px -8px rgba(0, 0, 0, 0.5);
@@ -17,7 +19,7 @@
   border-radius: 5px;
   height: 40px;
   width: 40px;
-  background-color: #F7EFD7;
+  background-color: $default-tile-color;
   font-weight: 900;
   display: flex;
   justify-content: center;
@@ -29,9 +31,9 @@
 
 .playerTile:hover {
   cursor: pointer;
-  background-color: #ead595;
+  background-color: $hover-tile-color;
 }
 
 .selectedTile {
-  background-color: #ff9900;
+  background-color:$active-tile-color;
 }

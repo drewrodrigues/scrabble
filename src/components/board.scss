@@ -1,5 +1,7 @@
+@import "../styles/variables.scss";
+
 .board {
-  border: 10px solid #6c921b;
+  border: 10px solid $board-background-color;
   display: inline-block;
   box-shadow: 0 0 10px #777;
   border-radius: 10px;
