@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { BONUS_CELLS } from "../utils/bonuses";
+import { firstLetterOfWords } from "../utils/formatters";
 import "./cell.scss";
 
 interface CellProps {
@@ -12,7 +13,7 @@ interface CellProps {
 
 export default function Cell({ row, col, letter, onClick }: CellProps) {
   const bonus = BONUS_CELLS[row][col];
-  const bonusText = bonus && `${bonus[0]}${bonus[bonus.indexOf("-") + 1]}`;
+  const bonusText = bonus && firstLetterOfWords(bonus);
   const isCenter = row === 7 && col === 7;
   const isFilled = letter !== null;
 

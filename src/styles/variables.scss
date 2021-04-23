@@ -1,4 +1,4 @@
-$white: #F7EFD7;
+$default-tile-color: #F7EFD7;
 $highlight-color: #fecb02; 
 
 // Board
@@ -6,11 +6,5 @@ $board-background-color: #173945;
 
 // Cells
 $cell-background-color: #2e4f62;
-$cell-text-color: $white;
 $cell-border-top: 1px solid #426d86;
 $cell-border-left: 1px solid #376077;
-
-// Tiles
-$default-tile-color: $white;
-$default-tile-text-color: $cell-background-color;
-$center-tile-color: $board-background-color;
