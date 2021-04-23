@@ -6,6 +6,9 @@ enum Direction {
 }
 
 export default function validate(cells: Cells, currentTurn: CurrentTurn[]) {
+  if (!currentTurn.length)
+    throw new Error("Cannot validate when no currentTurn");
+
   _validateCenterCovered(cells, currentTurn);
   _validateCurrentTurnAdjacent(currentTurn);
 }
