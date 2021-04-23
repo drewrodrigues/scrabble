@@ -71,7 +71,17 @@ export default function App() {
   }, [currentTurn, cells]);
 
   function onCompleteTurn() {
-    validate(cells, currentTurn);
+    try {
+      validate(cells, currentTurn);
+      addCurrentTurnToCells();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function addCurrentTurnToCells() {
+    setCells(cellsAndCurrentTurn);
+    setCurrentTurn([]);
   }
 
   return (
