@@ -6,8 +6,9 @@ enum Direction {
 }
 
 export default function validate(cells: Cells, currentTurn: CurrentTurn[]) {
-  if (!currentTurn.length)
+  if (!currentTurn.length) {
     throw new Error("Cannot validate when no currentTurn");
+  }
 
   _validateCenterCovered(cells, currentTurn);
   _validateCurrentTurnAdjacent(currentTurn);
@@ -27,7 +28,7 @@ function _validateCenterCovered(cells: Cells, currentTurn: CurrentTurn[]) {
 function _validateCurrentTurnAdjacent(currentTurn: CurrentTurn[]) {
   if (currentTurn.length === 1) return;
   const direction =
-    currentTurn[0].column == currentTurn[1].column
+    currentTurn[0].column === currentTurn[1].column
       ? Direction.Vertical
       : Direction.Horizontal;
 
