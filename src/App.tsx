@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useReducer, useState } from "react";
 import "./styles.css";
 import Board from "./components/board";
 import { Racks } from "./components/racks";
@@ -8,9 +8,8 @@ import "./styles/variables.scss";
 import "./styles/reset.scss";
 import validate from "./utils/validate";
 import { cloneDeep } from "lodash";
-import Error from "./components/error";
+import ErrorNotification from "./components/error";
 
-const PLAYER_COUNT = 2;
 const INITIAL_CELLS = Array(15)
   .fill(null)
   .map(() => Array(15).fill(null));
@@ -23,41 +22,100 @@ export interface CurrentTurn {
 
 export type Cells = string[][];
 
-export default function App() {
-  const [playerTurn, setPlayerTurn] = useState<number>(0);
-  const [cells, setCells] = useState<Cells>(INITIAL_CELLS);
-  const [currentlySelectedTileIndex, setCurrentlySelectedTileIndex] = useState<
-    number | undefined
-  >();
-  const [currentTurn, setCurrentTurn] = useState<CurrentTurn[]>([]);
-  const [playerRacks, setPlayerRacks] = useState<string[][]>([
-    ["A", "B", "C", "D", "E", "F", "G"],
-    ["A", "B", "C", "D", "E", "F", "G"],
-  ]);
-  const [errorMessage, setError] = useState<string | undefined>();
+interface AppState {
+  playerTurn: number;
+  cells: Cells;
+  currentlySelectedTileIndex: number | undefined;
+  currentTurn: CurrentTurn[];
+  playerRacks: string[][];
+  errorMessage: string | undefined;
+}
 
-  function onCellSelect(row: number, column: number) {
-    if (currentlySelectedTileIndex !== undefined) {
+const initialAppState = {
+  cells: INITIAL_CELLS,
+  currentlySelectedTileIndex: undefined,
+  currentTurn: [],
+  errorMessage: undefined,
+  playerTurn: 0,
+  playerRacks: [
+    ["A", "B", "C", "D", "E", "F", "G"],
+    ["A", "B", "C", "D", "E", "F", "G"],
+  ],
+};
+
+type AppAction =
+  | { type: "SELECT_CELL"; row: number; column: number }
+  | { type: "SELECT_TILE"; tileIndex: number }
+  | { type: "COMPLETE_TURN"; cellsAndCurrentTurn: Cells };
+
+function AppReducer(state: AppState, action: AppAction): AppState {
+  const {
+    playerTurn,
+    playerRacks,
+    currentTurn,
+    currentlySelectedTileIndex,
+  } = state;
+
+  switch (action.type) {
+    case "SELECT_TILE":
+      return {
+        ...state,
+        currentlySelectedTileIndex: action.tileIndex,
+      };
+    case "SELECT_CELL":
+      if (currentlySelectedTileIndex === undefined) {
+        console.warn("Celled SELECTED cell with no tile selected");
+        return state;
+      }
+      const { row, column } = action;
       const newCurrentTurn = Array.from(currentTurn);
+
       newCurrentTurn.push({
         letter: playerRacks[playerTurn][currentlySelectedTileIndex],
-        row: row,
+        row,
         column: column,
       });
-      setCurrentTurn(newCurrentTurn);
-      setCurrentlySelectedTileIndex(undefined);
-      setError(undefined);
+
       const newTilesOnRack = Array.from(playerRacks);
       newTilesOnRack[playerTurn].splice(currentlySelectedTileIndex, 1);
-      setPlayerRacks(newTilesOnRack);
-    } else {
-      console.log("No tile selected");
-    }
-  }
 
-  function onTileSelect(selectedTileIndex: number) {
-    setCurrentlySelectedTileIndex(selectedTileIndex);
+      return {
+        ...state,
+        currentlySelectedTileIndex: undefined,
+        currentTurn: newCurrentTurn,
+        playerRacks: newTilesOnRack,
+      };
+    case "COMPLETE_TURN":
+      try {
+        validate(state.cells, state.currentTurn);
+        return {
+          ...state,
+          cells: action.cellsAndCurrentTurn,
+          currentTurn: [],
+          currentlySelectedTileIndex: undefined,
+          playerTurn: (state.playerTurn + 1) % playerRacks.length,
+        };
+      } catch (e) {
+        return {
+          ...state,
+          errorMessage: e.message,
+        };
+      }
+    default:
+      return state;
   }
+}
+
+export default function App() {
+  const [state, dispatch] = useReducer(AppReducer, initialAppState);
+  const {
+    cells,
+    currentlySelectedTileIndex,
+    currentTurn,
+    playerRacks,
+    playerTurn,
+    errorMessage,
+  } = state;
 
   const cellsAndCurrentTurn = useMemo(() => {
     const cellsAndCurrentTurn = cloneDeep(cells);
@@ -67,26 +125,14 @@ export default function App() {
     return cellsAndCurrentTurn;
   }, [currentTurn, cells]);
 
-  function onCompleteTurn() {
-    try {
-      validate(cells, currentTurn);
-      addCurrentTurnToCells();
-      goToNextPlayer();
-    } catch (e) {
-      setError(e.message);
-    }
-  }
+  const onCellSelect = (row: number, column: number) =>
+    dispatch({ type: "SELECT_CELL", row, column });
 
-  function addCurrentTurnToCells() {
-    setCells(cellsAndCurrentTurn);
-    setCurrentTurn([]);
-  }
+  const onCompleteTurn = () =>
+    dispatch({ type: "COMPLETE_TURN", cellsAndCurrentTurn });
 
-  function goToNextPlayer() {
-    setPlayerTurn(
-      (previousPlayerNumber) => (previousPlayerNumber + 1) % PLAYER_COUNT
-    );
-  }
+  const onTileSelect = (tileIndex: number) =>
+    dispatch({ type: "SELECT_TILE", tileIndex });
 
   return (
     <div className="App">
@@ -94,7 +140,7 @@ export default function App() {
       <Board cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
 
       {errorMessage ? (
-        <Error message={errorMessage} />
+        <ErrorNotification message={errorMessage} />
       ) : (
         <CompleteTurn
           onClick={onCompleteTurn}
