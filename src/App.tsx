@@ -91,7 +91,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
       };
     case "REMOVE_TILE":
       let tileLetter: string;
-      const tileRemovedFromCurrentTurn = Array.from(currentTurn).filter(
+      const currentTurnWithTileRemoved = Array.from(currentTurn).filter(
         (currentTurn) => {
           const isClickedTile =
             currentTurn.row === action.row &&
@@ -110,7 +110,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
 
       return {
         ...state,
-        currentTurn: tileRemovedFromCurrentTurn,
+        currentTurn: currentTurnWithTileRemoved,
         playerRacks: newPlayerRacks,
       };
     case "COMPLETE_TURN":
