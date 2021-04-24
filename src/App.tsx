@@ -1,6 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import "./styles.css";
-import { useState } from "react";
 import Board from "./components/board";
 import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
@@ -62,7 +61,7 @@ export default function App() {
 
   const cellsAndCurrentTurn = useMemo(() => {
     const cellsAndCurrentTurn = cloneDeep(cells);
-    currentTurn.map((cell) => {
+    currentTurn.forEach((cell) => {
       cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
     });
     return cellsAndCurrentTurn;
