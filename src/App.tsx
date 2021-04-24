@@ -44,16 +44,20 @@ const initialAppState = {
 };
 
 type AppAction =
-  | { type: "SELECT_CELL"; row: number; column: number }
+  | { type: "PLACE_TILE"; row: number; column: number }
+  | { type: "REMOVE_TILE"; row: number; column: number }
   | { type: "SELECT_TILE"; tileIndex: number }
   | { type: "COMPLETE_TURN"; cellsAndCurrentTurn: Cells };
 
 function AppReducer(state: AppState, action: AppAction): AppState {
+  console.info(`AppReducer: ${action.type}`);
+
   const {
     playerTurn,
     playerRacks,
     currentTurn,
     currentlySelectedTileIndex,
+    cells,
   } = state;
 
   switch (action.type) {
@@ -62,7 +66,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         ...state,
         currentlySelectedTileIndex: action.tileIndex,
       };
-    case "SELECT_CELL":
+    case "PLACE_TILE":
       if (currentlySelectedTileIndex === undefined) {
         console.warn("Celled SELECTED cell with no tile selected");
         return state;
@@ -84,6 +88,30 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         currentlySelectedTileIndex: undefined,
         currentTurn: newCurrentTurn,
         playerRacks: newTilesOnRack,
+      };
+    case "REMOVE_TILE":
+      let tileLetter: string;
+      const currentTurnWithTileRemoved = Array.from(currentTurn).filter(
+        (currentTurn) => {
+          const isClickedTile =
+            currentTurn.row === action.row &&
+            currentTurn.column === action.column;
+
+          if (isClickedTile) {
+            tileLetter = currentTurn.letter;
+          }
+
+          return !isClickedTile;
+        }
+      );
+
+      const newPlayerRacks = Array.from(playerRacks);
+      newPlayerRacks[playerTurn].push(tileLetter!);
+
+      return {
+        ...state,
+        currentTurn: currentTurnWithTileRemoved,
+        playerRacks: newPlayerRacks,
       };
     case "COMPLETE_TURN":
       try {
@@ -125,8 +153,16 @@ export default function App() {
     return cellsAndCurrentTurn;
   }, [currentTurn, cells]);
 
-  const onCellSelect = (row: number, column: number) =>
-    dispatch({ type: "SELECT_CELL", row, column });
+  const onCellSelect = (row: number, column: number) => {
+    const isSelectedCellInCurrentTurn = currentTurn.some(
+      (cell) => cell.row === row && cell.column === column
+    );
+    if (isSelectedCellInCurrentTurn) {
+      dispatch({ type: "REMOVE_TILE", row, column });
+    } else {
+      dispatch({ type: "PLACE_TILE", row, column });
+    }
+  };
 
   const onCompleteTurn = () =>
     dispatch({ type: "COMPLETE_TURN", cellsAndCurrentTurn });
