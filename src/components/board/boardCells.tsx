@@ -1,6 +1,6 @@
 import React from "react";
-import { CellsType } from "../App";
-import Cell from "./cell";
+import { CellsType } from "../../App";
+import BoardCell from "./boardCell";
 import "./boardCells.scss";
 
 interface BoardProps {
@@ -8,7 +8,7 @@ interface BoardProps {
   onCellSelect: (row: number, col: number) => void;
 }
 
-export function BoardCells({ cells, onCellSelect }: BoardProps) {
+export default function BoardCells({ cells, onCellSelect }: BoardProps) {
   const onCellClick = (row: number, column: number) => {
     onCellSelect(row, column);
   };
@@ -19,7 +19,7 @@ export function BoardCells({ cells, onCellSelect }: BoardProps) {
         <section className="row" key={i}>
           {row.map((cellLetter, j) => {
             return (
-              <Cell
+              <BoardCell
                 key={j}
                 letter={cellLetter}
                 row={i}
