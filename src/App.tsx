@@ -9,23 +9,23 @@ import validate from "./utils/validate";
 import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
-import { drawRandomTiles } from "./utils/tiles";
+import { drawRandomTiles, Tile } from "./utils/tiles";
 import { Board, BoardCells } from "./components/board";
 
 export interface CurrentTurn {
-  letter: string;
+  tile: Tile;
   row: number;
   column: number;
 }
 
-export type CellsType = string[][];
+export type CellsType = Tile[][];
 
 interface AppState {
   playerTurn: number;
   cells: CellsType;
   currentlySelectedTileIndex: number | undefined;
   currentTurn: CurrentTurn[];
-  playerRacks: string[][];
+  playerRacks: Tile[][];
   errorMessage: string | undefined;
 }
 
@@ -70,7 +70,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
       const newCurrentTurn = Array.from(currentTurn);
 
       newCurrentTurn.push({
-        letter: playerRacks[playerTurn][currentlySelectedTileIndex],
+        tile: playerRacks[playerTurn][currentlySelectedTileIndex],
         row,
         column: column,
       });
@@ -86,7 +86,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         playerRacks: newTilesOnRack,
       };
     case "REMOVE_TILE":
-      let tileLetter: string;
+      let tile: Tile;
       const currentTurnWithTileRemoved = Array.from(currentTurn).filter(
         (currentTurn) => {
           const isClickedTile =
@@ -94,7 +94,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
             currentTurn.column === action.column;
 
           if (isClickedTile) {
-            tileLetter = currentTurn.letter;
+            tile = currentTurn.tile;
           }
 
           return !isClickedTile;
@@ -102,7 +102,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
       );
 
       const newPlayerRacks = Array.from(playerRacks);
-      newPlayerRacks[playerTurn].push(tileLetter!);
+      newPlayerRacks[playerTurn].push(tile!);
 
       return {
         ...state,
@@ -116,7 +116,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
 
         const cellsAndCurrentTurn = Array.from(cells);
         currentTurn.forEach((cell) => {
-          cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
+          cellsAndCurrentTurn[cell.row][cell.column] = cell.tile;
         });
 
         const newlyFilledRacks = Array.from(playerRacks);
