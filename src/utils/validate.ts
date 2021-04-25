@@ -44,8 +44,9 @@ function _validateNoGaps(
   currentTurn: CurrentTurn[],
   direction: Direction
 ) {
-  const property = direction === Direction.Vertical ? "row" : "column";
-  const rowOrColumnValues = currentTurn.map((cell) => cell[property]);
+  const rowOrColumnValues = currentTurn.map(
+    (cell) => cell[direction === Direction.Vertical ? "row" : "column"]
+  );
   const [min, max] = [
     Math.min(...rowOrColumnValues),
     Math.max(...rowOrColumnValues),
