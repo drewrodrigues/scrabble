@@ -9,10 +9,9 @@ import "./styles/reset.scss";
 import validate from "./utils/validate";
 import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
-
-const INITIAL_CELLS = Array(15)
-  .fill(null)
-  .map(() => Array(15).fill(null));
+import { INITIAL_CELLS } from "./utils/constants";
+import { drawRandomTiles } from "./utils/tiles";
+import { getRandomInt } from "./utils/math";
 
 export interface CurrentTurn {
   letter: string;
@@ -37,10 +36,7 @@ const initialAppState = {
   currentTurn: [],
   errorMessage: undefined,
   playerTurn: 0,
-  playerRacks: [
-    ["A", "B", "C", "D", "E", "F", "G"],
-    ["A", "B", "C", "D", "E", "F", "G"],
-  ],
+  playerRacks: [drawRandomTiles(7), drawRandomTiles(7)],
 };
 
 type AppAction =
