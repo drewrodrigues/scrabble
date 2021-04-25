@@ -9,10 +9,6 @@ interface BoardProps {
 }
 
 export function BoardCells({ cells, currentTurn, onCellSelect }: BoardProps) {
-  const onCellClick = (row: number, column: number) => {
-    onCellSelect(row, column);
-  };
-
   return (
     <>
       {cells.map((row, i) => (
@@ -28,7 +24,7 @@ export function BoardCells({ cells, currentTurn, onCellSelect }: BoardProps) {
                 letter={currentTurnCell ? currentTurnCell.letter : cellLetter}
                 row={i}
                 col={j}
-                onClick={onCellClick}
+                onClick={onCellSelect}
                 isActive={!!currentTurnCell}
               />
             );

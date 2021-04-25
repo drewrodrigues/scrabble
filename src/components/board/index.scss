@@ -14,7 +14,6 @@
 
 .cell {
   background-color: #2e4f62;
-  cursor: pointer;
   font-size: 10px;
   height: 45px;
   width: 45px;
@@ -29,6 +28,7 @@
   margin: 2px;
   border-top: $cell-border-top;
   border-left: $cell-border-left;
+  cursor: default;
 
   &--double-letter {
     background: #3baaf1;
@@ -60,7 +60,10 @@
     border: 3px solid $highlight-color;
   }
 
-  &:hover {
-    opacity: 0.9;
+  &--is-clickable {
+    &:hover {
+      opacity: 0.75;
+      cursor: pointer;
+    }
   }
 }

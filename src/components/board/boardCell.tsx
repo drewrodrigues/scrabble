@@ -22,6 +22,7 @@ export function BoardCell({
   const bonusText = bonus && firstLetterOfWords(bonus);
   const isCenter = row === 7 && col === 7;
   const isFilled = letter !== null;
+  const isClickable = isActive || !letter;
 
   return (
     <span
@@ -30,8 +31,9 @@ export function BoardCell({
         "cell--is-center": isCenter,
         "cell--is-filled": isFilled,
         "cell--is-active": isActive,
+        "cell--is-clickable": isClickable,
       })}
-      onClick={() => onClick(row, col)}
+      onClick={isClickable ? () => onClick(row, col) : undefined}
       key={col}
     >
       {letter || bonusText}
