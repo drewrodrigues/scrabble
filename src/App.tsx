@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useReducer, useState } from "react";
+import React, { useMemo, useReducer } from "react";
 import "./styles.css";
 import Board from "./components/board";
 import { Racks } from "./components/racks";
@@ -11,7 +11,7 @@ import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles } from "./utils/tiles";
-import { getRandomInt } from "./utils/math";
+import { BoardCells } from "./components/boardCells";
 
 export interface CurrentTurn {
   letter: string;
@@ -19,11 +19,11 @@ export interface CurrentTurn {
   column: number;
 }
 
-export type Cells = string[][];
+export type CellsType = string[][];
 
 interface AppState {
   playerTurn: number;
-  cells: Cells;
+  cells: CellsType;
   currentlySelectedTileIndex: number | undefined;
   currentTurn: CurrentTurn[];
   playerRacks: string[][];
@@ -43,7 +43,7 @@ type AppAction =
   | { type: "PLACE_TILE"; row: number; column: number }
   | { type: "REMOVE_TILE"; row: number; column: number }
   | { type: "SELECT_TILE"; tileIndex: number }
-  | { type: "COMPLETE_TURN"; cellsAndCurrentTurn: Cells };
+  | { type: "COMPLETE_TURN"; cellsAndCurrentTurn: CellsType };
 
 function AppReducer(state: AppState, action: AppAction): AppState {
   console.info(`AppReducer: ${action.type}`);
@@ -171,7 +171,9 @@ export default function App() {
   return (
     <div className="App">
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
-      <Board cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
+      <Board>
+        <BoardCells cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
+      </Board>
 
       {errorMessage ? (
         <ErrorNotification message={errorMessage} />

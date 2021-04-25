@@ -1,11 +1,11 @@
-import { Cells, CurrentTurn } from "../App";
+import { CellsType, CurrentTurn } from "../App";
 
 enum Direction {
   Vertical = "Vertical",
   Horizontal = "Horizontal",
 }
 
-export default function validate(cells: Cells, currentTurn: CurrentTurn[]) {
+export default function validate(cells: CellsType, currentTurn: CurrentTurn[]) {
   if (!currentTurn.length) {
     throw new Error("Cannot validate when no currentTurn");
   }
@@ -14,7 +14,7 @@ export default function validate(cells: Cells, currentTurn: CurrentTurn[]) {
   _validateCurrentTurnAdjacent(currentTurn);
 }
 
-function _validateCenterCovered(cells: Cells, currentTurn: CurrentTurn[]) {
+function _validateCenterCovered(cells: CellsType, currentTurn: CurrentTurn[]) {
   // TODO: @drew make flexible for different sized boards
   const isCenterCovered =
     cells[7][7] ||
