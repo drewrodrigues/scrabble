@@ -13,7 +13,7 @@ export function BoardCells({ cells, currentTurn, onCellSelect }: BoardProps) {
     <>
       {cells.map((row, i) => (
         <section className="row" key={i}>
-          {row.map((cellLetter, j) => {
+          {row.map((cellTile, j) => {
             const currentTurnCell = currentTurn.find(
               (turn) => turn.row === i && turn.column === j
             );
@@ -21,7 +21,7 @@ export function BoardCells({ cells, currentTurn, onCellSelect }: BoardProps) {
             return (
               <BoardCell
                 key={j}
-                letter={currentTurnCell ? currentTurnCell.letter : cellLetter}
+                tile={currentTurnCell ? currentTurnCell.tile : cellTile}
                 row={i}
                 col={j}
                 onClick={onCellSelect}

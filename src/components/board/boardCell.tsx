@@ -2,27 +2,29 @@ import React from "react";
 import classNames from "classnames";
 import { BONUS_CELLS } from "../../utils/bonuses";
 import { firstLetterOfWords } from "../../utils/formatters";
+import { Tile } from "../../utils/tiles";
+import "../tile.scss";
 
 interface BoardCellProps {
   row: number;
   col: number;
   onClick: (row: number, col: number) => void;
   isActive: boolean;
-  letter?: string;
+  tile?: Tile;
 }
 
 export function BoardCell({
   row,
   col,
-  letter,
+  tile,
   onClick,
   isActive,
 }: BoardCellProps) {
   const bonus = BONUS_CELLS[row][col];
   const bonusText = bonus && firstLetterOfWords(bonus);
   const isCenter = row === 7 && col === 7;
-  const isFilled = letter !== null;
-  const isClickable = isActive || !letter;
+  const isFilled = tile !== null;
+  const isClickable = isActive || !tile;
 
   return (
     <span
@@ -36,7 +38,8 @@ export function BoardCell({
       onClick={isClickable ? () => onClick(row, col) : undefined}
       key={col}
     >
-      {letter || bonusText}
+      <span className="tile-letter">{tile ? tile.letter : bonusText}</span>
+      <span className="tile-points">{tile ? tile.points : ""}</span>
     </span>
   );
 }
