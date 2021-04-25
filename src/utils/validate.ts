@@ -11,7 +11,7 @@ export default function validate(cells: Cells, currentTurn: CurrentTurn[]) {
   }
 
   _validateCenterCovered(cells, currentTurn);
-  _validateCurrentTurnAdjacent(currentTurn);
+  _validateCurrentTurnAdjacent(cells, currentTurn);
 }
 
 function _validateCenterCovered(cells: Cells, currentTurn: CurrentTurn[]) {
@@ -25,28 +25,39 @@ function _validateCenterCovered(cells: Cells, currentTurn: CurrentTurn[]) {
   }
 }
 
-function _validateCurrentTurnAdjacent(currentTurn: CurrentTurn[]) {
+function _validateCurrentTurnAdjacent(
+  cells: Cells,
+  currentTurn: CurrentTurn[]
+) {
   if (currentTurn.length === 1) return;
   const direction =
     currentTurn[0].column === currentTurn[1].column
       ? Direction.Vertical
       : Direction.Horizontal;
 
-  _validateNoGaps(currentTurn, direction);
   _validateRowOrColumnAllEqual(currentTurn, direction);
+  _validateNoGaps(cells, currentTurn, direction);
 }
 
-function _validateNoGaps(currentTurn: CurrentTurn[], direction: Direction) {
-  const rowOrColumnValues = currentTurn.map(
-    (cell) => cell[direction === Direction.Vertical ? "row" : "column"]
-  );
+function _validateNoGaps(
+  cells: Cells,
+  currentTurn: CurrentTurn[],
+  direction: Direction
+) {
+  const property = direction === Direction.Vertical ? "row" : "column";
+  const rowOrColumnValues = currentTurn.map((cell) => cell[property]);
   const [min, max] = [
     Math.min(...rowOrColumnValues),
     Math.max(...rowOrColumnValues),
   ];
 
   for (let i = min; i <= max; i++) {
-    if (!rowOrColumnValues.includes(i)) {
+    const tileExistsInCells =
+      direction === Direction.Vertical
+        ? cells[i][currentTurn[0].column]
+        : cells[currentTurn[0].row][i];
+
+    if (!rowOrColumnValues.includes(i) && !tileExistsInCells) {
       throw new Error("There's a gap in the cells direction");
     }
   }
