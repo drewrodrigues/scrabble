@@ -42,7 +42,7 @@ type AppAction =
   | { type: "PLACE_TILE"; row: number; column: number }
   | { type: "REMOVE_TILE"; row: number; column: number }
   | { type: "SELECT_TILE"; tileIndex: number }
-  | { type: "COMPLETE_TURN"; cellsAndCurrentTurn: CellsType };
+  | { type: "COMPLETE_TURN" };
 
 function AppReducer(state: AppState, action: AppAction): AppState {
   console.info(`AppReducer: ${action.type}`);
@@ -113,9 +113,15 @@ function AppReducer(state: AppState, action: AppAction): AppState {
     case "COMPLETE_TURN":
       try {
         validate(state.cells, state.currentTurn);
+
+        const cellsAndCurrentTurn = cloneDeep(cells);
+        currentTurn.forEach((cell) => {
+          cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
+        });
+
         return {
           ...state,
-          cells: action.cellsAndCurrentTurn,
+          cells: cellsAndCurrentTurn,
           currentTurn: [],
           currentlySelectedTileIndex: undefined,
           playerTurn: (state.playerTurn + 1) % playerRacks.length,
@@ -142,14 +148,6 @@ export default function App() {
     errorMessage,
   } = state;
 
-  const cellsAndCurrentTurn = useMemo(() => {
-    const cellsAndCurrentTurn = cloneDeep(cells);
-    currentTurn.forEach((cell) => {
-      cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
-    });
-    return cellsAndCurrentTurn;
-  }, [currentTurn, cells]);
-
   const onCellSelect = (row: number, column: number) => {
     const isSelectedCellInCurrentTurn = currentTurn.some(
       (cell) => cell.row === row && cell.column === column
@@ -161,8 +159,7 @@ export default function App() {
     }
   };
 
-  const onCompleteTurn = () =>
-    dispatch({ type: "COMPLETE_TURN", cellsAndCurrentTurn });
+  const onCompleteTurn = () => dispatch({ type: "COMPLETE_TURN" });
 
   const onTileSelect = (tileIndex: number) =>
     dispatch({ type: "SELECT_TILE", tileIndex });
@@ -171,7 +168,11 @@ export default function App() {
     <div className="App">
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
       <Board>
-        <BoardCells cells={cellsAndCurrentTurn} onCellSelect={onCellSelect} />
+        <BoardCells
+          cells={cells}
+          currentTurn={currentTurn}
+          onCellSelect={onCellSelect}
+        />
       </Board>
 
       {errorMessage ? (

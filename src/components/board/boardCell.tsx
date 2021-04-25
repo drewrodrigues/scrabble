@@ -7,14 +7,22 @@ interface BoardCellProps {
   row: number;
   col: number;
   onClick: (row: number, col: number) => void;
+  isActive: boolean;
   letter?: string;
 }
 
-export function BoardCell({ row, col, letter, onClick }: BoardCellProps) {
+export function BoardCell({
+  row,
+  col,
+  letter,
+  onClick,
+  isActive,
+}: BoardCellProps) {
   const bonus = BONUS_CELLS[row][col];
   const bonusText = bonus && firstLetterOfWords(bonus);
   const isCenter = row === 7 && col === 7;
   const isFilled = letter !== null;
+  const isClickable = isActive || !letter;
 
   return (
     <span
@@ -22,8 +30,10 @@ export function BoardCell({ row, col, letter, onClick }: BoardCellProps) {
         [`cell--${bonus}`]: bonus,
         "cell--is-center": isCenter,
         "cell--is-filled": isFilled,
+        "cell--is-active": isActive,
+        "cell--is-clickable": isClickable,
       })}
-      onClick={() => onClick(row, col)}
+      onClick={isClickable ? () => onClick(row, col) : undefined}
       key={col}
     >
       {letter || bonusText}
