@@ -1,5 +1,6 @@
 import React from "react";
-import { TileType } from "../../utils/tiles";
+import { TileType } from "../utils/tiles";
+import "./tile.scss";
 
 interface TileProps {
   tile: TileType;

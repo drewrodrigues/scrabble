@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import { Tile } from "./board/index";
+import { Tile } from "./tile";
 import { TileType } from "../utils/tiles";
 import "./rack.scss";
 

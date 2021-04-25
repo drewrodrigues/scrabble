@@ -2,9 +2,8 @@ import React from "react";
 import classNames from "classnames";
 import { BONUS_CELLS } from "../../utils/bonuses";
 import { firstLetterOfWords } from "../../utils/formatters";
-import { Tile } from "./index";
+import { Tile } from "../tile";
 import { TileType } from "../../utils/tiles";
-import "./tile.scss";
 
 interface BoardCellProps {
   row: number;
