@@ -31,7 +31,7 @@ export function getCurrentTurnsWords(
 
       return words.filter(Boolean);
     } else {
-      console.log("Vertical word");
+      console.log("Horizontal word");
       const words = [buildHorizontalWordFromTurn(currentTurn, cells)];
 
       currentTurn.forEach((turn) => {

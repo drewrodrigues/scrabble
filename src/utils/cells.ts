@@ -56,12 +56,12 @@ export function buildVerticalWordFromTurn(
   turns: CurrentTurn[],
   cells: CellsType
 ) {
-  let anyTilesAbove = true;
+  let anyTilesToLeft = true;
   let currentRow = turns[0].row;
   const constantColumn = turns[0].column;
   let word = turns[0].letter;
 
-  while (anyTilesAbove) {
+  while (anyTilesToLeft) {
     currentRow--;
 
     const aboveTileInCells = cells[currentRow][constantColumn];
@@ -74,13 +74,13 @@ export function buildVerticalWordFromTurn(
     } else if (aboveTileInCurrentTurn) {
       word = aboveTileInCurrentTurn.letter + word;
     } else {
-      anyTilesAbove = false;
+      anyTilesToLeft = false;
     }
   }
 
   currentRow = turns[0].row;
-  let anyTilesBelow = true;
-  while (anyTilesBelow) {
+  let anyTilesToRight = true;
+  while (anyTilesToRight) {
     currentRow++;
 
     const belowTileInCells = cells[currentRow][constantColumn];
@@ -93,7 +93,7 @@ export function buildVerticalWordFromTurn(
     } else if (belowTileInCurrentTurn) {
       word += belowTileInCurrentTurn.letter;
     } else {
-      anyTilesBelow = false;
+      anyTilesToRight = false;
     }
   }
 
