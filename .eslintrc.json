@@ -29,6 +29,7 @@
     "@typescript-eslint/no-use-before-define": "off",
     "no-use-before-define": "off",
     "no-unused-vars": "off",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "react/prop-types": "off"
   }
 }
