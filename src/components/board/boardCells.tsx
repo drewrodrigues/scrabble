@@ -1,14 +1,13 @@
 import React from "react";
 import { CellsType } from "../../App";
-import BoardCell from "./boardCell";
-import "./boardCells.scss";
+import { BoardCell } from "./boardCell";
 
 interface BoardProps {
   cells: CellsType;
   onCellSelect: (row: number, col: number) => void;
 }
 
-export default function BoardCells({ cells, onCellSelect }: BoardProps) {
+export function BoardCells({ cells, onCellSelect }: BoardProps) {
   const onCellClick = (row: number, column: number) => {
     onCellSelect(row, column);
   };

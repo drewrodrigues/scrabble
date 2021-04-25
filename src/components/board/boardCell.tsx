@@ -2,7 +2,6 @@ import React from "react";
 import classNames from "classnames";
 import { BONUS_CELLS } from "../../utils/bonuses";
 import { firstLetterOfWords } from "../../utils/formatters";
-import "./boardCell.scss";
 
 interface BoardCellProps {
   row: number;
@@ -11,12 +10,7 @@ interface BoardCellProps {
   letter?: string;
 }
 
-export default function BoardCell({
-  row,
-  col,
-  letter,
-  onClick,
-}: BoardCellProps) {
+export function BoardCell({ row, col, letter, onClick }: BoardCellProps) {
   const bonus = BONUS_CELLS[row][col];
   const bonusText = bonus && firstLetterOfWords(bonus);
   const isCenter = row === 7 && col === 7;

@@ -1,6 +1,5 @@
 import React, { useMemo, useReducer } from "react";
 import "./styles.css";
-import Board from "./components/board/board";
 import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
 import CompleteTurn from "./components/completeTurn";
@@ -11,7 +10,7 @@ import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles } from "./utils/tiles";
-import BoardCells from "./components/board/boardCells";
+import { Board, BoardCells } from "./components/board";
 
 export interface CurrentTurn {
   letter: string;
