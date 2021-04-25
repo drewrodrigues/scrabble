@@ -1,8 +1,15 @@
 import { CellsType, TileInCurrentTurn } from "../App";
 
-enum Direction {
+export enum Direction {
   Vertical = "Vertical",
   Horizontal = "Horizontal",
+}
+
+export function getDirectionOfCurrentTurn(currentTurn: TileInCurrentTurn[]) {
+  if (currentTurn.length === 1) return Direction.Vertical;
+  return currentTurn[0].column === currentTurn[1].column
+    ? Direction.Vertical
+    : Direction.Horizontal;
 }
 
 export default function validate(
@@ -94,10 +101,7 @@ function _validateNoGaps(
   ];
 
   for (let i = min; i <= max; i++) {
-    const tileExistsInCells =
-      direction === Direction.Vertical
-        ? cells[i][currentTurn[0].column]
-        : cells[currentTurn[0].row][i];
+    const tileExistsInCells = getDirectionOfCurrentTurn(currentTurn);
 
     if (!rowOrColumnValues.includes(i) && !tileExistsInCells) {
       throw new Error("There's a gap in the cells direction");

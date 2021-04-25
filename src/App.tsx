@@ -5,12 +5,13 @@ import { Rack } from "./components/rack";
 import CompleteTurn from "./components/completeTurn";
 import "./styles/variables.scss";
 import "./styles/reset.scss";
-import validate from "./utils/validate";
+import validate, { getDirectionOfCurrentTurn } from "./utils/validate";
 import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles, TileType } from "./utils/tiles";
 import { Board, BoardCells } from "./components/board";
+import { getCurrentTurnsWords } from "./utils/words";
 
 export interface TileInCurrentTurn {
   tile: TileType;
@@ -122,6 +123,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         const newlyFilledRacks = Array.from(playerRacks);
         const tilesNeeded = 7 - newlyFilledRacks[playerTurn].length;
         newlyFilledRacks[playerTurn].push(...drawRandomTiles(tilesNeeded));
+        console.log(getCurrentTurnsWords(cells, currentTurn));
 
         return {
           ...state,
