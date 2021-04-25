@@ -114,10 +114,14 @@ function AppReducer(state: AppState, action: AppAction): AppState {
       try {
         validate(state.cells, state.currentTurn);
 
-        const cellsAndCurrentTurn = cloneDeep(cells);
+        const cellsAndCurrentTurn = Array.from(cells);
         currentTurn.forEach((cell) => {
           cellsAndCurrentTurn[cell.row][cell.column] = cell.letter;
         });
+
+        const newlyFilledRacks = Array.from(playerRacks);
+        const tilesNeeded = 7 - newlyFilledRacks[playerTurn].length;
+        newlyFilledRacks[playerTurn].push(...drawRandomTiles(tilesNeeded));
 
         return {
           ...state,
