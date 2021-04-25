@@ -144,25 +144,25 @@ interface Tile {
 }
 
 // const tilestack: Tile[] = [];
-const tilestack: string[] = [];
+const tileStack: string[] = [];
 TILE_DISTRIBUTION.forEach((letter) => {
   for (let i = 0; i < letter.count; i++) {
     // tilestack.push({ letter: letter.letter, points: letter.points });
-    tilestack.push(letter.letter);
+    tileStack.push(letter.letter);
   }
 });
 
-export function drawRandomTiles(n: number): string[] {
-  let randomTileInStack;
+export function drawRandomTiles(tileCount: number): string[] {
   const tilesToReturn = [];
-  if (tilestack.length !== 0) {
-    for (let i = 0; i < n; i++) {
-      randomTileInStack = getRandomInt(tilestack.length);
-      tilesToReturn.push(tilestack[randomTileInStack]);
-      tilestack.splice(randomTileInStack, 1);
+  if (tileStack.length !== 0) {
+    for (let i = 0; i < tileCount; i++) {
+      const randomIndexFromStack = getRandomInt(tileStack.length);
+      const randomTileFromStack = tileStack[randomIndexFromStack];
+      tilesToReturn.push(randomTileFromStack);
+      tileStack.splice(randomIndexFromStack, 1);
     }
   } else {
-    console.log("There are no more tiles in the stack.");
+    console.warn("There are no more tiles in the stack.");
   }
   return tilesToReturn;
 }
