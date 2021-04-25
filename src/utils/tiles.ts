@@ -138,19 +138,19 @@ const TILE_DISTRIBUTION = [
   },
 ];
 
-export interface Tile {
+export interface TileType {
   letter: string;
   points: number;
 }
 
-const tileStack: Tile[] = [];
-TILE_DISTRIBUTION.forEach((letter) => {
-  for (let i = 0; i < letter.count; i++) {
-    tileStack.push({ letter: letter.letter, points: letter.points });
+const tileStack: TileType[] = [];
+TILE_DISTRIBUTION.forEach((tile) => {
+  for (let i = 0; i < tile.count; i++) {
+    tileStack.push(tile);
   }
 });
 
-export function drawRandomTiles(tileCount: number): Tile[] {
+export function drawRandomTiles(tileCount: number): TileType[] {
   const tilesToReturn = [];
   if (tileStack.length !== 0) {
     for (let i = 0; i < tileCount; i++) {

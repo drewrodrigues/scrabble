@@ -2,15 +2,16 @@ import React from "react";
 import classNames from "classnames";
 import { BONUS_CELLS } from "../../utils/bonuses";
 import { firstLetterOfWords } from "../../utils/formatters";
-import { Tile } from "../../utils/tiles";
-import "../tile.scss";
+import { Tile } from "./index";
+import { TileType } from "../../utils/tiles";
+import "./tile.scss";
 
 interface BoardCellProps {
   row: number;
   col: number;
   onClick: (row: number, col: number) => void;
   isActive: boolean;
-  tile?: Tile;
+  tile?: TileType;
 }
 
 export function BoardCell({
@@ -38,8 +39,7 @@ export function BoardCell({
       onClick={isClickable ? () => onClick(row, col) : undefined}
       key={col}
     >
-      <span className="tile-letter">{tile ? tile.letter : bonusText}</span>
-      <span className="tile-points">{tile ? tile.points : ""}</span>
+      {tile ? <Tile tile={tile} /> : bonusText}
     </span>
   );
 }

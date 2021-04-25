@@ -9,23 +9,23 @@ import validate from "./utils/validate";
 import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
-import { drawRandomTiles, Tile } from "./utils/tiles";
+import { drawRandomTiles, TileType } from "./utils/tiles";
 import { Board, BoardCells } from "./components/board";
 
 export interface CurrentTurn {
-  tile: Tile;
+  tile: TileType;
   row: number;
   column: number;
 }
 
-export type CellsType = Tile[][];
+export type CellsType = TileType[][];
 
 interface AppState {
   playerTurn: number;
   cells: CellsType;
   currentlySelectedTileIndex: number | undefined;
   currentTurn: CurrentTurn[];
-  playerRacks: Tile[][];
+  playerRacks: TileType[][];
   errorMessage: string | undefined;
 }
 
@@ -86,7 +86,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         playerRacks: newTilesOnRack,
       };
     case "REMOVE_TILE":
-      let tile: Tile;
+      let tile: TileType;
       const currentTurnWithTileRemoved = Array.from(currentTurn).filter(
         (currentTurn) => {
           const isClickedTile =

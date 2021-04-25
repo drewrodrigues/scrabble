@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import React from "react";
+import { Tile } from "./board/index";
+import { TileType } from "../utils/tiles";
 import "./rack.scss";
-import "./tile.scss";
-import { Tile } from "../utils/tiles";
 
 interface RackProps {
   player: number;
-  tiles: Tile[];
+  tiles: TileType[];
   selectedTileIndex: number | undefined;
   onTileSelect: (selectedTile: number) => void;
   isActive: boolean;
@@ -33,8 +33,7 @@ export function Rack({
           })}
           onClick={() => onTileSelect(index)}
         >
-          <span className="tile-letter">{tile.letter}</span>
-          <span className="tile-points">{tile.points}</span>
+          <Tile tile={tile} />
         </div>
       ))}
     </div>
