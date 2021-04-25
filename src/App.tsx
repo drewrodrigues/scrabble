@@ -86,6 +86,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
       return {
         ...state,
         currentlySelectedTileIndex: undefined,
+        errorMessage: undefined,
         currentTurn: newCurrentTurn,
         playerRacks: newTilesOnRack,
       };
@@ -110,6 +111,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
 
       return {
         ...state,
+        errorMessage: undefined,
         currentTurn: currentTurnWithTileRemoved,
         playerRacks: newPlayerRacks,
       };
