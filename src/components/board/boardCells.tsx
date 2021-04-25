@@ -1,26 +1,24 @@
 import React from "react";
-import "./board.scss";
-import Cell from "./cell";
+import { CellsType } from "../../App";
+import { BoardCell } from "./boardCell";
 
 interface BoardProps {
-  cells: string[][];
+  cells: CellsType;
   onCellSelect: (row: number, col: number) => void;
 }
 
-export default function Board({ cells, onCellSelect }: BoardProps) {
+export function BoardCells({ cells, onCellSelect }: BoardProps) {
   const onCellClick = (row: number, column: number) => {
     onCellSelect(row, column);
   };
 
-  console.log(JSON.stringify(cells));
-
   return (
-    <main className="board">
+    <>
       {cells.map((row, i) => (
         <section className="row" key={i}>
           {row.map((cellLetter, j) => {
             return (
-              <Cell
+              <BoardCell
                 key={j}
                 letter={cellLetter}
                 row={i}
@@ -31,6 +29,6 @@ export default function Board({ cells, onCellSelect }: BoardProps) {
           })}
         </section>
       ))}
-    </main>
+    </>
   );
 }
