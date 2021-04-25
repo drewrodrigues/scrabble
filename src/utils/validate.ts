@@ -26,7 +26,7 @@ function _validateCenterCovered(cells: CellsType, currentTurn: CurrentTurn[]) {
 }
 
 function _validateCurrentTurnAdjacent(
-  cells: Cells,
+  cells: CellsType,
   currentTurn: CurrentTurn[]
 ) {
   if (currentTurn.length === 1) return;
@@ -40,7 +40,7 @@ function _validateCurrentTurnAdjacent(
 }
 
 function _validateNoGaps(
-  cells: Cells,
+  cells: CellsType,
   currentTurn: CurrentTurn[],
   direction: Direction
 ) {
