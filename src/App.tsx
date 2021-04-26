@@ -119,7 +119,8 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         validate(state.cells, state.currentTurn);
         const wordTiles = getCurrentTurnsWords(cells, currentTurn);
         const accumulatedPoints = wordTiles.reduce(
-          (total, tile) => total + tile.reduce((total, tile) => tile.points, 0),
+          (total, tile) =>
+            total + tile.reduce((total, tile) => total + tile.points, 0),
           0
         );
 
