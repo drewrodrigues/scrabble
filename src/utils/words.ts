@@ -50,18 +50,18 @@ function buildWordFromTurnInDirection(
 
   [-1, 1].forEach((decrementOrIncrement) => {
     let anyTilesInDirection = true;
-    let currentValue = turns[0][changingProp];
+    let changingValue = turns[0][changingProp];
 
     while (anyTilesInDirection) {
-      currentValue = currentValue + decrementOrIncrement;
+      changingValue += decrementOrIncrement;
 
       const isTileInCells =
-        cells[changingProp === "row" ? currentValue : constantValue][
-          changingProp === "column" ? currentValue : constantValue
+        cells[changingProp === "row" ? changingValue : constantValue][
+          changingProp === "column" ? changingValue : constantValue
         ];
       const isTileInCurrentTurn = turns.find(
         (turn) =>
-          turn[changingProp] === currentValue &&
+          turn[changingProp] === changingValue &&
           turn[constantProp] === constantValue
       );
 
