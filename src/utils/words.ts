@@ -65,18 +65,17 @@ function buildWordFromTurnInDirection(
     while (anyTilesInDirection) {
       currentValue = currentValue + decrementOrIncrement;
 
-      const aboveTileInCells =
+      const isTileInCells =
         cells[changingProp === "row" ? currentValue : constantValue][
           changingProp === "column" ? currentValue : constantValue
         ];
-      const aboveTileInCurrentTurn = turns.find(
+      const isTileInCurrentTurn = turns.find(
         (turn) =>
           turn[changingProp] === currentValue &&
           turn[constantProp] === constantValue
       );
 
-      const letter =
-        aboveTileInCurrentTurn?.tile.letter || aboveTileInCells?.letter;
+      const letter = isTileInCurrentTurn?.tile.letter || isTileInCells?.letter;
 
       if (letter) {
         if (decrementOrIncrement === -1) {
