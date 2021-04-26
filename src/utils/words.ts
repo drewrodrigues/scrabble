@@ -39,6 +39,7 @@ export function getCurrentTurnsWords(
   return words.filter(Boolean).filter((word) => {
     const letters = word!.map((tile) => tile.letter);
     const wordFromTiles = letters.join("");
+    console.log({ wordFromTiles });
     return isValidWord(wordFromTiles);
   });
 }
