@@ -6,9 +6,17 @@
   padding: 30px 0 100px 0;
   background: linear-gradient(45deg, #152a31, #1e6680);
   height: 100%;
+  font-weight: 700;
 }
 
 .turn-notification {
   color: white;
   margin-bottom: 30px;
+}
+
+main {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
 }

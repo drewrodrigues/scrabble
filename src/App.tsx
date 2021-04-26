@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer } from "react";
+import React, { useReducer } from "react";
 import "./styles.css";
 import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
@@ -6,11 +6,11 @@ import CompleteTurn from "./components/completeTurn";
 import "./styles/variables.scss";
 import "./styles/reset.scss";
 import validate from "./utils/validate";
-import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles, TileType } from "./utils/tiles";
 import { Board, BoardCells } from "./components/board";
+import { Score } from "./components/score";
 
 export interface CurrentTurn {
   tile: TileType;
@@ -171,14 +171,17 @@ export default function App() {
   return (
     <div className="App">
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
-      <Board>
-        <BoardCells
-          cells={cells}
-          currentTurn={currentTurn}
-          onCellSelect={onCellSelect}
-        />
-      </Board>
-
+      <main>
+        <Score playerName="Viviana" score={10} />
+        <Board>
+          <BoardCells
+            cells={cells}
+            currentTurn={currentTurn}
+            onCellSelect={onCellSelect}
+          />
+        </Board>
+        <Score playerName="Drew" score={20} />
+      </main>
       {errorMessage ? (
         <ErrorNotification message={errorMessage} />
       ) : (
