@@ -28,6 +28,7 @@ interface AppState {
   currentTurn: TileInCurrentTurn[];
   playerRacks: TileType[][];
   errorMessage: string | undefined;
+  scores: number[];
 }
 
 const initialAppState: AppState = {
@@ -37,6 +38,7 @@ const initialAppState: AppState = {
   errorMessage: undefined,
   playerTurn: 0,
   playerRacks: [drawRandomTiles(7), drawRandomTiles(7)],
+  scores: [0, 0],
 };
 
 type AppAction =
@@ -54,6 +56,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
     currentTurn,
     currentlySelectedTileIndex,
     cells,
+    scores,
   } = state;
 
   switch (action.type) {
@@ -114,8 +117,14 @@ function AppReducer(state: AppState, action: AppAction): AppState {
     case "COMPLETE_TURN":
       try {
         validate(state.cells, state.currentTurn);
-        const words = getCurrentTurnsWords(cells, currentTurn);
-        console.log({ words });
+        const wordTiles = getCurrentTurnsWords(cells, currentTurn);
+        const accumulatedPoints = wordTiles.reduce(
+          (total, tile) => total + tile.reduce((total, tile) => tile.points, 0),
+          0
+        );
+
+        const newScores = Array.from(scores);
+        newScores[playerTurn] += accumulatedPoints;
 
         const cellsAndCurrentTurn = Array.from(cells);
         currentTurn.forEach((cell) => {
@@ -132,6 +141,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
           currentTurn: [],
           currentlySelectedTileIndex: undefined,
           playerTurn: (state.playerTurn + 1) % playerRacks.length,
+          scores: newScores,
         };
       } catch (e) {
         return {
@@ -153,6 +163,7 @@ export default function App() {
     playerRacks,
     playerTurn,
     errorMessage,
+    scores,
   } = state;
 
   const onCellSelect = (row: number, column: number) => {
@@ -175,7 +186,7 @@ export default function App() {
     <div className="App">
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
       <main className="app-main">
-        <Score playerName="Viviana" score={10} />
+        <Score playerName="Viviana" score={scores[0]} />
         <Board>
           <BoardCells
             cells={cells}
@@ -183,7 +194,7 @@ export default function App() {
             onCellSelect={onCellSelect}
           />
         </Board>
-        <Score playerName="Drew" score={20} />
+        <Score playerName="Drew" score={scores[1]} />
       </main>
       {errorMessage ? (
         <ErrorNotification message={errorMessage} />
