@@ -10,7 +10,7 @@ interface BoardCellProps {
   col: number;
   onClick: (row: number, col: number) => void;
   isActive: boolean;
-  tile?: TileType;
+  tile: TileType | null;
 }
 
 export function BoardCell({

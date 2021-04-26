@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer } from "react";
+import React, { useReducer } from "react";
 import "./styles.css";
 import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
@@ -6,11 +6,11 @@ import CompleteTurn from "./components/completeTurn";
 import "./styles/variables.scss";
 import "./styles/reset.scss";
 import validate from "./utils/validate";
-import { cloneDeep } from "lodash";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles, TileType } from "./utils/tiles";
 import { Board, BoardCells } from "./components/board";
+import { getCurrentTurnsWords } from "./utils/words";
 
 export interface TileInCurrentTurn {
   tile: TileType;
@@ -18,7 +18,7 @@ export interface TileInCurrentTurn {
   column: number;
 }
 
-export type CellsType = TileType[][];
+export type CellsType = (TileType | null)[][];
 
 interface AppState {
   playerTurn: number;
@@ -29,7 +29,7 @@ interface AppState {
   errorMessage: string | undefined;
 }
 
-const initialAppState = {
+const initialAppState: AppState = {
   cells: INITIAL_CELLS,
   currentlySelectedTileIndex: undefined,
   currentTurn: [],
@@ -122,6 +122,7 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         const newlyFilledRacks = Array.from(playerRacks);
         const tilesNeeded = 7 - newlyFilledRacks[playerTurn].length;
         newlyFilledRacks[playerTurn].push(...drawRandomTiles(tilesNeeded));
+        console.log(getCurrentTurnsWords(cells, currentTurn));
 
         return {
           ...state,
