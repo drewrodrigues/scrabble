@@ -1,11 +1,12 @@
 import { CellsType, TileInCurrentTurn } from "../App";
 import { Direction, getDirectionOfCurrentTurn } from "./validate";
+import { TileType } from "./tiles";
 
 export function getCurrentTurnsWords(
   cells: CellsType,
   currentTurn: TileInCurrentTurn[]
 ) {
-  const words: (string | undefined)[] = [];
+  const words: (TileType[] | undefined)[] = [];
 
   if (currentTurn.length === 1) {
     console.log("LENGTH OF 1");
@@ -46,7 +47,7 @@ function buildWordFromTurnInDirection(
   const changingProp = direction === Direction.Vertical ? "row" : "column";
 
   const constantValue = currentTurn[0][constantProp];
-  let word = currentTurn[0].tile.letter;
+  const word: TileType[] = [currentTurn[0].tile];
 
   [-1, 1].forEach((decrementOrIncrement) => {
     let anyTilesInDirection = true;
@@ -65,13 +66,13 @@ function buildWordFromTurnInDirection(
           turn[constantProp] === constantValue
       );
 
-      const letter = isTileInCurrentTurn?.tile.letter || isTileInCells?.letter;
+      const tile = isTileInCurrentTurn?.tile || isTileInCells;
 
-      if (letter) {
+      if (tile) {
         if (decrementOrIncrement === -1) {
-          word = letter + word;
+          word.unshift(tile);
         } else {
-          word += letter;
+          word.push(tile);
         }
       } else {
         anyTilesInDirection = false;
