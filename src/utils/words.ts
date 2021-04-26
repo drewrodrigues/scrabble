@@ -75,9 +75,8 @@ function buildWordFromTurnInDirection(
           turn[constantProp] === constantValue
       );
 
-      const letter = aboveTileInCurrentTurn
-        ? aboveTileInCurrentTurn.tile.letter
-        : aboveTileInCells;
+      const letter =
+        aboveTileInCurrentTurn?.tile.letter || aboveTileInCells?.letter;
 
       if (letter) {
         if (decrementOrIncrement === -1) {
