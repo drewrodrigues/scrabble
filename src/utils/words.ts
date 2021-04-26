@@ -38,19 +38,19 @@ export function getCurrentTurnsWords(
 }
 
 function buildWordFromTurnInDirection(
-  turns: CurrentTurn[],
+  currentTurn: CurrentTurn[],
   cells: CellsType,
   direction: Direction
 ) {
   const constantProp = direction === Direction.Vertical ? "column" : "row";
   const changingProp = direction === Direction.Vertical ? "row" : "column";
 
-  const constantValue = turns[0][constantProp];
-  let word = turns[0].tile.letter;
+  const constantValue = currentTurn[0][constantProp];
+  let word = currentTurn[0].tile.letter;
 
   [-1, 1].forEach((decrementOrIncrement) => {
     let anyTilesInDirection = true;
-    let changingValue = turns[0][changingProp];
+    let changingValue = currentTurn[0][changingProp];
 
     while (anyTilesInDirection) {
       changingValue += decrementOrIncrement;
@@ -59,7 +59,7 @@ function buildWordFromTurnInDirection(
         cells[changingProp === "row" ? changingValue : constantValue][
           changingProp === "column" ? changingValue : constantValue
         ];
-      const isTileInCurrentTurn = turns.find(
+      const isTileInCurrentTurn = currentTurn.find(
         (turn) =>
           turn[changingProp] === changingValue &&
           turn[constantProp] === constantValue
