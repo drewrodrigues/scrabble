@@ -1,20 +1,46 @@
-import { CellsType, CurrentTurn } from "../App";
+import { CellsType, TileInCurrentTurn } from "../App";
 
-enum Direction {
+export enum Direction {
   Vertical = "Vertical",
   Horizontal = "Horizontal",
 }
 
-export default function validate(cells: CellsType, currentTurn: CurrentTurn[]) {
+export function getDirectionOfCurrentTurn(currentTurn: TileInCurrentTurn[]) {
+  if (currentTurn.length === 1) return Direction.Vertical;
+  return currentTurn[0].column === currentTurn[1].column
+    ? Direction.Vertical
+    : Direction.Horizontal;
+}
+
+export default function validate(
+  cells: CellsType,
+  currentTurn: TileInCurrentTurn[]
+) {
   if (!currentTurn.length) {
     throw new Error("Cannot validate when no currentTurn");
   }
 
+  const currentTurnMoreThanOneTile = currentTurn.length > 1;
+  const isFirstTurn = currentTurn.some(
+    (turn) => turn.row === 7 && turn.column === 7
+  );
+
   _validateCenterCovered(cells, currentTurn);
-  _validateCurrentTurnAdjacent(cells, currentTurn);
+  if (!isFirstTurn) _validateCurrentTurnAdjacent(cells, currentTurn);
+  if (currentTurnMoreThanOneTile) {
+    const direction =
+      currentTurn[0].column === currentTurn[1].column
+        ? Direction.Vertical
+        : Direction.Horizontal;
+    _validateUnidirectional(currentTurn, direction);
+    _validateNoGaps(cells, currentTurn, direction);
+  }
 }
 
-function _validateCenterCovered(cells: CellsType, currentTurn: CurrentTurn[]) {
+function _validateCenterCovered(
+  cells: CellsType,
+  currentTurn: TileInCurrentTurn[]
+) {
   // TODO: @drew make flexible for different sized boards
   const isCenterCovered =
     cells[7][7] ||
@@ -27,21 +53,43 @@ function _validateCenterCovered(cells: CellsType, currentTurn: CurrentTurn[]) {
 
 function _validateCurrentTurnAdjacent(
   cells: CellsType,
-  currentTurn: CurrentTurn[]
+  currentTurn: TileInCurrentTurn[]
 ) {
-  if (currentTurn.length === 1) return;
-  const direction =
-    currentTurn[0].column === currentTurn[1].column
-      ? Direction.Vertical
-      : Direction.Horizontal;
+  const isAtLeastOneTileAdjacent = currentTurn.some((tile) => {
+    const touchesLeftEndOfBoard = tile.column === 0;
+    const isLeftAdjacent = !touchesLeftEndOfBoard
+      ? cells[tile.row][tile.column - 1]
+      : false;
 
-  _validateRowOrColumnAllEqual(currentTurn, direction);
-  _validateNoGaps(cells, currentTurn, direction);
+    const touchesRightEndOfBoard = tile.column === cells[0].length;
+    const isRightAdjacent = !touchesRightEndOfBoard
+      ? cells[tile.row + 1][tile.column]
+      : false;
+
+    const touchesTopEndOfBoard = tile.row === 0;
+    const isTopAdjacent = !touchesTopEndOfBoard
+      ? cells[tile.row - 1][tile.column]
+      : false;
+
+    const touchesBottomEndOfBoard = tile.row === cells.length;
+    const isBottomAdjacent = !touchesBottomEndOfBoard
+      ? cells[tile.row + 1][tile.column]
+      : false;
+
+    return (
+      isLeftAdjacent || isRightAdjacent || isTopAdjacent || isBottomAdjacent
+    );
+  });
+  if (!isAtLeastOneTileAdjacent) {
+    throw new Error(
+      "The new word must use at least one of the letters already on the board."
+    );
+  }
 }
 
 function _validateNoGaps(
   cells: CellsType,
-  currentTurn: CurrentTurn[],
+  currentTurn: TileInCurrentTurn[],
   direction: Direction
 ) {
   const rowOrColumnValues = currentTurn.map(
@@ -53,10 +101,7 @@ function _validateNoGaps(
   ];
 
   for (let i = min; i <= max; i++) {
-    const tileExistsInCells =
-      direction === Direction.Vertical
-        ? cells[i][currentTurn[0].column]
-        : cells[currentTurn[0].row][i];
+    const tileExistsInCells = getDirectionOfCurrentTurn(currentTurn);
 
     if (!rowOrColumnValues.includes(i) && !tileExistsInCells) {
       throw new Error("There's a gap in the cells direction");
@@ -64,8 +109,8 @@ function _validateNoGaps(
   }
 }
 
-function _validateRowOrColumnAllEqual(
-  currentTurn: CurrentTurn[],
+function _validateUnidirectional(
+  currentTurn: TileInCurrentTurn[],
   direction: Direction
 ) {
   const shouldBeStaticValue = currentTurn.map(
