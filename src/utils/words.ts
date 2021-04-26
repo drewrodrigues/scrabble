@@ -59,6 +59,11 @@ function buildWordFromTurnInDirection(
     while (anyTilesInDirection) {
       changingValue += decrementOrIncrement;
 
+      const hitEdgeOfBoard = changingValue >= 15 || changingValue <= -1;
+      if (hitEdgeOfBoard) {
+        break;
+      }
+
       const isTileInCells =
         cells[changingProp === "row" ? changingValue : constantValue][
           changingProp === "column" ? changingValue : constantValue
