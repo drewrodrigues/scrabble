@@ -63,7 +63,7 @@ function _validateCurrentTurnAdjacent(
 
     const touchesRightEndOfBoard = tile.column === cells[0].length;
     const isRightAdjacent = !touchesRightEndOfBoard
-      ? cells[tile.row + 1][tile.column]
+      ? cells[tile.row][tile.column + 1]
       : false;
 
     const touchesTopEndOfBoard = tile.row === 0;
