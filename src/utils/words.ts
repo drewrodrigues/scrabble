@@ -56,7 +56,7 @@ function buildWordFromTurnInDirection(
   const changingProp = direction === Direction.Vertical ? "row" : "column";
 
   const constantValue = turns[0][constantProp];
-  let word = turns[0].letter;
+  let word = turns[0].tile.letter;
 
   [-1, 1].forEach((decrementOrIncrement) => {
     let anyTilesInDirection = true;
@@ -76,7 +76,7 @@ function buildWordFromTurnInDirection(
       );
 
       const letter = aboveTileInCurrentTurn
-        ? aboveTileInCurrentTurn.letter
+        ? aboveTileInCurrentTurn.tile.letter
         : aboveTileInCells;
 
       if (letter) {
