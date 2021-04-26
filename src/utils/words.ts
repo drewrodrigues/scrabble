@@ -1,50 +1,40 @@
 import { CellsType, CurrentTurn } from "../App";
-import { Direction } from "./validate";
+import { Direction, getDirectionOfCurrentTurn } from "./validate";
 
 export function getCurrentTurnsWords(
   cells: CellsType,
   currentTurn: CurrentTurn[]
 ) {
+  const words: (string | undefined)[] = [];
+
   if (currentTurn.length === 1) {
     console.log("LENGTH OF 1");
-    return [
-      buildWordFromTurnInDirection(currentTurn, cells, Direction.Vertical),
-      buildWordFromTurnInDirection(currentTurn, cells, Direction.Horizontal),
-    ].filter(Boolean);
+    words.push(
+      buildWordFromTurnInDirection(currentTurn, cells, Direction.Vertical)
+    );
+    words.push(
+      buildWordFromTurnInDirection(currentTurn, cells, Direction.Horizontal)
+    );
   } else {
-    const direction =
-      currentTurn[0].column === currentTurn[1].column
-        ? Direction.Vertical
-        : Direction.Horizontal;
+    const direction = getDirectionOfCurrentTurn(currentTurn);
 
-    if (direction === Direction.Vertical) {
-      console.log("Vertical word");
-      const words = [
-        buildWordFromTurnInDirection(currentTurn, cells, Direction.Vertical),
-      ];
+    console.log("Word in direction: ", direction);
+    words.push(buildWordFromTurnInDirection(currentTurn, cells, direction));
 
-      currentTurn.forEach((turn) => {
-        words.push(
-          buildWordFromTurnInDirection([turn], cells, Direction.Horizontal)
-        );
-      });
-
-      return words.filter(Boolean);
-    } else {
-      console.log("Horizontal word");
-      const words = [
-        buildWordFromTurnInDirection(currentTurn, cells, Direction.Horizontal),
-      ];
-
-      currentTurn.forEach((turn) => {
-        words.push(
-          buildWordFromTurnInDirection([turn], cells, Direction.Vertical)
-        );
-      });
-
-      return words.filter(Boolean);
-    }
+    currentTurn.forEach((turn) => {
+      words.push(
+        buildWordFromTurnInDirection(
+          [turn],
+          cells,
+          direction === Direction.Horizontal
+            ? Direction.Vertical
+            : Direction.Horizontal
+        )
+      );
+    });
   }
+
+  return words.filter(Boolean);
 }
 
 function buildWordFromTurnInDirection(
