@@ -113,6 +113,8 @@ function AppReducer(state: AppState, action: AppAction): AppState {
     case "COMPLETE_TURN":
       try {
         validate(state.cells, state.currentTurn);
+        const words = getCurrentTurnsWords(cells, currentTurn);
+        console.log({ words });
 
         const cellsAndCurrentTurn = Array.from(cells);
         currentTurn.forEach((cell) => {
@@ -122,7 +124,6 @@ function AppReducer(state: AppState, action: AppAction): AppState {
         const newlyFilledRacks = Array.from(playerRacks);
         const tilesNeeded = 7 - newlyFilledRacks[playerTurn].length;
         newlyFilledRacks[playerTurn].push(...drawRandomTiles(tilesNeeded));
-        console.log(getCurrentTurnsWords(cells, currentTurn));
 
         return {
           ...state,

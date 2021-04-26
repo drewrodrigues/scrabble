@@ -40,7 +40,12 @@ export function getCurrentTurnsWords(
     const letters = word!.map((tile) => tile.letter);
     const wordFromTiles = letters.join("");
     console.log({ wordFromTiles });
-    return isValidWord(wordFromTiles);
+
+    if (isValidWord(wordFromTiles)) {
+      return wordFromTiles;
+    } else {
+      throw new Error(`${wordFromTiles} is not a valid word.`);
+    }
   });
 }
 
