@@ -38,7 +38,7 @@ export function getCurrentTurnsWords(
 
   const filteredTiles = tiles.filter(Boolean);
   filteredTiles.forEach((tiles) => verifyTilesFormWord(tiles!));
-  return filteredTiles;
+  return filteredTiles as TileType[][];
 }
 
 function buildWordFromTurnInDirection(
