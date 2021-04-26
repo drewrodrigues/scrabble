@@ -1,12 +1,11 @@
-import React, { useMemo, useReducer } from "react";
+import React, { useReducer } from "react";
 import "./styles.css";
 import { Racks } from "./components/racks";
 import { Rack } from "./components/rack";
 import CompleteTurn from "./components/completeTurn";
 import "./styles/variables.scss";
 import "./styles/reset.scss";
-import validate, { getDirectionOfCurrentTurn } from "./utils/validate";
-import { cloneDeep } from "lodash";
+import validate from "./utils/validate";
 import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles, TileType } from "./utils/tiles";
