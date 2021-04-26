@@ -1,9 +1,9 @@
-import { CellsType, CurrentTurn } from "../App";
+import { CellsType, TileInCurrentTurn } from "../App";
 import { Direction, getDirectionOfCurrentTurn } from "./validate";
 
 export function getCurrentTurnsWords(
   cells: CellsType,
-  currentTurn: CurrentTurn[]
+  currentTurn: TileInCurrentTurn[]
 ) {
   const words: (string | undefined)[] = [];
 
@@ -38,7 +38,7 @@ export function getCurrentTurnsWords(
 }
 
 function buildWordFromTurnInDirection(
-  currentTurn: CurrentTurn[],
+  currentTurn: TileInCurrentTurn[],
   cells: CellsType,
   direction: Direction
 ) {
