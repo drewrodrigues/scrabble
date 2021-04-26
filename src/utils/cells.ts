@@ -1,103 +1,49 @@
 import { CellsType, CurrentTurn } from "../App";
+import { Direction } from "./validate";
 
-// turn should be sorted before being passed
-export function buildHorizontalWordFromTurn(
+export function buildWordFromTurnInDirection(
   turns: CurrentTurn[],
-  cells: CellsType
+  cells: CellsType,
+  direction: Direction
 ) {
-  let anyTilesAbove = true;
-  let currentColumn = turns[0].column;
-  const constantRow = turns[0].row;
+  const constantProp = direction === Direction.Vertical ? "column" : "row";
+  const changingProp = direction === Direction.Vertical ? "row" : "column";
+
+  const constantValue = turns[0][constantProp];
   let word = turns[0].letter;
 
-  while (anyTilesAbove) {
-    currentColumn--;
+  [-1, 1].forEach((decrementOrIncrement) => {
+    let anyTilesInDirection = true;
+    let currentValue = turns[0][changingProp];
 
-    const aboveTileInCells = cells[constantRow][currentColumn];
-    const aboveTileInCurrentTurn = turns.find(
-      (turn) => turn.column === currentColumn && turn.row === constantRow
-    );
+    while (anyTilesInDirection) {
+      currentValue = currentValue + decrementOrIncrement;
 
-    if (aboveTileInCells) {
-      word = aboveTileInCells + word;
-    } else if (aboveTileInCurrentTurn) {
-      word = aboveTileInCurrentTurn.letter + word;
-    } else {
-      anyTilesAbove = false;
+      const aboveTileInCells =
+        cells[changingProp === "row" ? currentValue : constantValue][
+          changingProp === "column" ? currentValue : constantValue
+        ];
+      const aboveTileInCurrentTurn = turns.find(
+        (turn) =>
+          turn[changingProp] === currentValue &&
+          turn[constantProp] === constantValue
+      );
+
+      const letter = aboveTileInCurrentTurn
+        ? aboveTileInCurrentTurn.letter
+        : aboveTileInCells;
+
+      if (letter) {
+        if (decrementOrIncrement === -1) {
+          word = letter + word;
+        } else {
+          word += letter;
+        }
+      } else {
+        anyTilesInDirection = false;
+      }
     }
-  }
-
-  currentColumn = turns[0].column;
-  let anyTilesBelow = true;
-  while (anyTilesBelow) {
-    currentColumn++;
-
-    const belowTileInCells = cells[constantRow][currentColumn];
-    const belowTileInCurrentTurn = turns.find(
-      (turn) => turn.column === currentColumn && turn.row === constantRow
-    );
-
-    if (belowTileInCells) {
-      word += belowTileInCells;
-    } else if (belowTileInCurrentTurn) {
-      word += belowTileInCurrentTurn.letter;
-    } else {
-      anyTilesBelow = false;
-    }
-  }
-
-  console.log({ word });
-
-  return word.length === 1 ? undefined : word;
-}
-
-// turn should be sorted before being passed
-export function buildVerticalWordFromTurn(
-  turns: CurrentTurn[],
-  cells: CellsType
-) {
-  let anyTilesToLeft = true;
-  let currentRow = turns[0].row;
-  const constantColumn = turns[0].column;
-  let word = turns[0].letter;
-
-  while (anyTilesToLeft) {
-    currentRow--;
-
-    const aboveTileInCells = cells[currentRow][constantColumn];
-    const aboveTileInCurrentTurn = turns.find(
-      (turn) => turn.row === currentRow && turn.column === constantColumn
-    );
-
-    if (aboveTileInCells) {
-      word = aboveTileInCells + word;
-    } else if (aboveTileInCurrentTurn) {
-      word = aboveTileInCurrentTurn.letter + word;
-    } else {
-      anyTilesToLeft = false;
-    }
-  }
-
-  currentRow = turns[0].row;
-  let anyTilesToRight = true;
-  while (anyTilesToRight) {
-    currentRow++;
-
-    const belowTileInCells = cells[currentRow][constantColumn];
-    const belowTileInCurrentTurn = turns.find(
-      (turn) => turn.row === currentRow && turn.column === constantColumn
-    );
-
-    if (belowTileInCells) {
-      word += belowTileInCells;
-    } else if (belowTileInCurrentTurn) {
-      word += belowTileInCurrentTurn.letter;
-    } else {
-      anyTilesToRight = false;
-    }
-  }
-
-  console.log({ word });
+  });
 
   return word.length === 1 ? undefined : word;
 }

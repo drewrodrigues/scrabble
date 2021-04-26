@@ -1,8 +1,5 @@
 import { CellsType, CurrentTurn } from "../App";
-import {
-  buildHorizontalWordFromTurn,
-  buildVerticalWordFromTurn,
-} from "./cells";
+import { buildWordFromTurnInDirection } from "./cells";
 import { Direction } from "./validate";
 
 export function getCurrentTurnsWords(
@@ -12,8 +9,8 @@ export function getCurrentTurnsWords(
   if (currentTurn.length === 1) {
     console.log("LENGTH OF 1");
     return [
-      buildVerticalWordFromTurn(currentTurn, cells),
-      buildHorizontalWordFromTurn(currentTurn, cells),
+      buildWordFromTurnInDirection(currentTurn, cells, Direction.Vertical),
+      buildWordFromTurnInDirection(currentTurn, cells, Direction.Horizontal),
     ].filter(Boolean);
   } else {
     const direction =
@@ -23,19 +20,27 @@ export function getCurrentTurnsWords(
 
     if (direction === Direction.Vertical) {
       console.log("Vertical word");
-      const words = [buildVerticalWordFromTurn(currentTurn, cells)];
+      const words = [
+        buildWordFromTurnInDirection(currentTurn, cells, Direction.Vertical),
+      ];
 
       currentTurn.forEach((turn) => {
-        words.push(buildHorizontalWordFromTurn([turn], cells));
+        words.push(
+          buildWordFromTurnInDirection([turn], cells, Direction.Horizontal)
+        );
       });
 
       return words.filter(Boolean);
     } else {
       console.log("Horizontal word");
-      const words = [buildHorizontalWordFromTurn(currentTurn, cells)];
+      const words = [
+        buildWordFromTurnInDirection(currentTurn, cells, Direction.Horizontal),
+      ];
 
       currentTurn.forEach((turn) => {
-        words.push(buildVerticalWordFromTurn([turn], cells));
+        words.push(
+          buildWordFromTurnInDirection([turn], cells, Direction.Vertical)
+        );
       });
 
       return words.filter(Boolean);
