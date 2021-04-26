@@ -10,6 +10,7 @@ import ErrorNotification from "./components/error";
 import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles, TileType } from "./utils/tiles";
 import { Board, BoardCells } from "./components/board";
+import { Score } from "./components/score";
 import { getCurrentTurnsWords } from "./utils/words";
 
 export interface TileInCurrentTurn {
@@ -172,14 +173,17 @@ export default function App() {
   return (
     <div className="App">
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
-      <Board>
-        <BoardCells
-          cells={cells}
-          currentTurn={currentTurn}
-          onCellSelect={onCellSelect}
-        />
-      </Board>
-
+      <main className="app-main">
+        <Score playerName="Viviana" score={10} />
+        <Board>
+          <BoardCells
+            cells={cells}
+            currentTurn={currentTurn}
+            onCellSelect={onCellSelect}
+          />
+        </Board>
+        <Score playerName="Drew" score={20} />
+      </main>
       {errorMessage ? (
         <ErrorNotification message={errorMessage} />
       ) : (

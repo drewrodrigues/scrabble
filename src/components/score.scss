@@ -1,0 +1,21 @@
+@import "../styles/variables.scss";
+
+.score {
+  text-align: center;
+  color: $default-tile-color;
+}
+
+.score__player {
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+}
+
+.score__counter {
+  font-size: 2.5rem;
+  color: $highlight-color;
+  margin-bottom: 4px;
+}
+
+.score__points {
+  font-size: 0.9rem;
+}
