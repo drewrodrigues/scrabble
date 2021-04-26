@@ -13,54 +13,64 @@ export default function validate(
     throw new Error("Cannot validate when no currentTurn");
   }
 
-  _validateCenterCovered(cells, currentTurn);
-  _validateCurrentTurnAdjacent(cells, currentTurn);
-  _validateCurrentTurnNoGapsAndUnidirectional(cells, currentTurn);
-}
-
-function _validateCenterCovered(
-  cells: CellsType,
-  currentTurn: TileInCurrentTurn[]
-) {
-  // TODO: @drew make flexible for different sized boards
-  const isCenterCovered =
-    cells[7][7] ||
-    currentTurn.some((turn) => turn.row === 7 && turn.column === 7);
-
-  if (!isCenterCovered) {
-    throw new Error("Center tile needs to be covered");
-  }
-}
-
-function _validateCurrentTurnAdjacent(
-  cells: CellsType,
-  currentTurn: TileInCurrentTurn[]
-) {
+  const currentTurnMoreThanOneTile = currentTurn.length > 1;
   const isFirstTurn = currentTurn.some(
     (turn) => turn.row === 7 && turn.column === 7
   );
 
-  if (!isFirstTurn) {
+  _validateCenterCovered(cells, currentTurn);
+  if (!isFirstTurn) _validateCurrentTurnAdjacent(cells, currentTurn);
+  if (currentTurnMoreThanOneTile) {
+    const direction =
+      currentTurn[0].column === currentTurn[1].column
+        ? Direction.Vertical
+        : Direction.Horizontal;
+    _validateUnidirectional(currentTurn, direction);
+    _validateNoGaps(cells, currentTurn, direction);
+  }
+
+  function _validateCenterCovered(
+    cells: CellsType,
+    currentTurn: TileInCurrentTurn[]
+  ) {
+    // TODO: @drew make flexible for different sized boards
+    const isCenterCovered =
+      cells[7][7] ||
+      currentTurn.some((turn) => turn.row === 7 && turn.column === 7);
+
+    if (!isCenterCovered) {
+      throw new Error("Center tile needs to be covered");
+    }
+  }
+
+  function _validateCurrentTurnAdjacent(
+    cells: CellsType,
+    currentTurn: TileInCurrentTurn[]
+  ) {
     const isAtLeastOneTileAdjacent = currentTurn.some((tile) => {
-      // Check left neighbor
-      const leftAdjacent =
-        tile.column !== 0 ? cells[tile.row][tile.column - 1] : false;
+      const touchesLeftEndOfBoard = tile.column === 0;
+      const isLeftAdjacent = !touchesLeftEndOfBoard
+        ? cells[tile.row][tile.column - 1]
+        : false;
 
-      // Check right neighbor
-      const rightAdjacent =
-        tile.column !== cells[0].length
-          ? cells[tile.row + 1][tile.column]
-          : false;
+      const touchesRightEndOfBoard = tile.column === cells[0].length;
+      const isRightAdjacent = !touchesRightEndOfBoard
+        ? cells[tile.row + 1][tile.column]
+        : false;
 
-      // Check top neighbor
-      const topAdjacent =
-        tile.row !== 0 ? cells[tile.row - 1][tile.column] : false;
+      const touchesTopEndOfBoard = tile.row === 0;
+      const isTopAdjacent = !touchesTopEndOfBoard
+        ? cells[tile.row - 1][tile.column]
+        : false;
 
-      // Check bottom neighbor
-      const bottomAdjacent =
-        tile.row !== cells.length ? cells[tile.row + 1][tile.column] : false;
+      const touchesBottomEndOfBoard = tile.row === cells.length;
+      const isBottomAdjacent = !touchesBottomEndOfBoard
+        ? cells[tile.row + 1][tile.column]
+        : false;
 
-      return leftAdjacent || rightAdjacent || topAdjacent || bottomAdjacent;
+      return (
+        isLeftAdjacent || isRightAdjacent || isTopAdjacent || isBottomAdjacent
+      );
     });
     if (!isAtLeastOneTileAdjacent) {
       throw new Error(
@@ -68,21 +78,7 @@ function _validateCurrentTurnAdjacent(
       );
     }
   }
-}
 
-function _validateCurrentTurnNoGapsAndUnidirectional(
-  cells: CellsType,
-  currentTurn: TileInCurrentTurn[]
-) {
-  if (currentTurn.length > 1) {
-    const direction =
-      currentTurn[0].column === currentTurn[1].column
-        ? Direction.Vertical
-        : Direction.Horizontal;
-
-    _validateUnidirectional(currentTurn, direction);
-    _validateNoGaps(cells, currentTurn, direction);
-  }
   function _validateNoGaps(
     cells: CellsType,
     currentTurn: TileInCurrentTurn[],
