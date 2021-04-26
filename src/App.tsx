@@ -19,7 +19,7 @@ export interface TileInCurrentTurn {
   column: number;
 }
 
-export type CellsType = TileType[][];
+export type CellsType = (TileType | null)[][];
 
 interface AppState {
   playerTurn: number;
@@ -30,7 +30,7 @@ interface AppState {
   errorMessage: string | undefined;
 }
 
-const initialAppState = {
+const initialAppState: AppState = {
   cells: INITIAL_CELLS,
   currentlySelectedTileIndex: undefined,
   currentTurn: [],
