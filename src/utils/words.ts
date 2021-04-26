@@ -7,24 +7,24 @@ export function getCurrentTurnsWords(
   cells: CellsType,
   currentTurn: TileInCurrentTurn[]
 ) {
-  const words: (TileType[] | undefined)[] = [];
+  const tiles: (TileType[] | undefined)[] = [];
 
   if (currentTurn.length === 1) {
     console.log("LENGTH OF 1");
-    words.push(
+    tiles.push(
       buildWordFromTurnInDirection(currentTurn, cells, Direction.Vertical)
     );
-    words.push(
+    tiles.push(
       buildWordFromTurnInDirection(currentTurn, cells, Direction.Horizontal)
     );
   } else {
     const direction = getDirectionOfCurrentTurn(currentTurn);
 
     console.log("Word in direction: ", direction);
-    words.push(buildWordFromTurnInDirection(currentTurn, cells, direction));
+    tiles.push(buildWordFromTurnInDirection(currentTurn, cells, direction));
 
     currentTurn.forEach((turn) => {
-      words.push(
+      tiles.push(
         buildWordFromTurnInDirection(
           [turn],
           cells,
@@ -36,17 +36,9 @@ export function getCurrentTurnsWords(
     });
   }
 
-  return words.filter(Boolean).filter((word) => {
-    const letters = word!.map((tile) => tile.letter);
-    const wordFromTiles = letters.join("");
-    console.log({ wordFromTiles });
-
-    if (isValidWord(wordFromTiles)) {
-      return wordFromTiles;
-    } else {
-      throw new Error(`${wordFromTiles} is not a valid word.`);
-    }
-  });
+  const filteredTiles = tiles.filter(Boolean);
+  filteredTiles.forEach((tiles) => verifyTilesFormWord(tiles!));
+  return filteredTiles;
 }
 
 function buildWordFromTurnInDirection(
@@ -92,4 +84,16 @@ function buildWordFromTurnInDirection(
   });
 
   return word.length === 1 ? undefined : word;
+}
+
+function verifyTilesFormWord(tiles: TileType[]) {
+  const letters = tiles.map((tile) => tile.letter);
+  const wordFromTiles = letters.join("");
+  console.log({ wordFromTiles });
+
+  if (isValidWord(wordFromTiles)) {
+    return wordFromTiles;
+  } else {
+    throw new Error(`${wordFromTiles} is not a valid word.`);
+  }
 }
