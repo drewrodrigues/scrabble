@@ -14,7 +14,7 @@
   margin-bottom: 30px;
 }
 
-main {
+.app-main {
   display: flex;
   justify-content: space-evenly;
   width: 100%;

@@ -171,7 +171,7 @@ export default function App() {
   return (
     <div className="App">
       <p className="turn-notification">It's player {playerTurn}'s turn</p>
-      <main>
+      <main className="app-main">
         <Score playerName="Viviana" score={10} />
         <Board>
           <BoardCells

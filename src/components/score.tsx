@@ -9,9 +9,9 @@ interface ScoreProps {
 export function Score({ playerName, score }: ScoreProps) {
   return (
     <div className="score">
-      <h2 className="score--player">{playerName}</h2>
-      <p className="score--counter">{score} </p>
-      <p className="score--points">points</p>
+      <h2 className="score__player">{playerName}</h2>
+      <p className="score__counter">{score} </p>
+      <p className="score__points">points</p>
     </div>
   );
 }
