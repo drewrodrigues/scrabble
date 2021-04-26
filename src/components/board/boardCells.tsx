@@ -1,10 +1,10 @@
 import React from "react";
-import { CellsType, CurrentTurn } from "../../App";
+import { CellsType, TileInCurrentTurn } from "../../App";
 import { BoardCell } from "./boardCell";
 
 interface BoardProps {
   cells: CellsType;
-  currentTurn: CurrentTurn[];
+  currentTurn: TileInCurrentTurn[];
   onCellSelect: (row: number, col: number) => void;
 }
 
