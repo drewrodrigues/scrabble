@@ -1,6 +1,7 @@
 import { CellsType, TileInCurrentTurn } from "../App";
 import { Direction, getDirectionOfCurrentTurn } from "./validate";
 import { TileType } from "./tiles";
+import { isValidWord } from "./dictionary";
 
 export function getCurrentTurnsWords(
   cells: CellsType,
@@ -35,7 +36,11 @@ export function getCurrentTurnsWords(
     });
   }
 
-  return words.filter(Boolean);
+  return words.filter(Boolean).filter((word) => {
+    const letters = word!.map((tile) => tile.letter);
+    const wordFromTiles = letters.join("");
+    return isValidWord(wordFromTiles);
+  });
 }
 
 function buildWordFromTurnInDirection(
