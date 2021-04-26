@@ -12,7 +12,7 @@ import { INITIAL_CELLS } from "./utils/constants";
 import { drawRandomTiles, TileType } from "./utils/tiles";
 import { Board, BoardCells } from "./components/board";
 
-export interface CurrentTurn {
+export interface TileInCurrentTurn {
   tile: TileType;
   row: number;
   column: number;
@@ -24,7 +24,7 @@ interface AppState {
   playerTurn: number;
   cells: CellsType;
   currentlySelectedTileIndex: number | undefined;
-  currentTurn: CurrentTurn[];
+  currentTurn: TileInCurrentTurn[];
   playerRacks: TileType[][];
   errorMessage: string | undefined;
 }
