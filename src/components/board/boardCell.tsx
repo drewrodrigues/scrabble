@@ -20,6 +20,7 @@ export function BoardCell({
   onClick,
   isActive,
 }: BoardCellProps) {
+  console.log(BONUS_CELLS);
   const bonus = BONUS_CELLS[row][col];
   const bonusText = bonus && firstLetterOfWords(bonus);
   const isCenter = row === 7 && col === 7;
